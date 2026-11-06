@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Room Service Interaktif — Media Pembelajaran</title>
+<title>VIDEO INTERAKTIF KETERAMPILAN PEMESANAN ROOM SERVICE MAHASISWA PRODI PKK PARIWISATA UNDIKSHA</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -25,14 +25,22 @@
 
 <main id="stage">
 
-  <!-- Adegan 1 — Pembukaan -->
-  <section class="scene scene--hero is-active" id="s1" data-narasi="Selamat datang di media pembelajaran interaktif Keterampilan Pemesanan Room Service. Program Studi Perhotelan.">
-    <div class="hero">
-      <div class="scene__icon scene__icon--hero" aria-hidden="true">🏨</div>
-      <h1 class="hero__title">Keterampilan Pemesanan Room Service</h1>
-      <p class="hero__subtitle">Media Pembelajaran Interaktif</p>
-      <p class="hero__identity">Program Studi Perhotelan</p>
-      <button class="btn btn--primary" type="button" data-goto="s2">▶ Mulai</button>
+  <!-- Adegan 1 — Pembukaan: video intro + kartu judul -->
+  <section class="scene scene--hero is-active" id="s1">
+    <div class="intro" id="intro">
+      <video class="intro__video" id="introVideo" src="opening.mp4" playsinline preload="auto" aria-label="Video pembuka"></video>
+      <button class="btn btn--ghost intro__skip" id="skipIntro" type="button">Lewati ▸</button>
+    </div>
+    <div class="hero" id="heroCard" hidden>
+      <p class="hero__kicker">SELAMAT DATANG DI MEDIA INTERAKTIF</p>
+      <h1 class="hero__title">VIDEO INTERAKTIF KETERAMPILAN PEMESANAN ROOM SERVICE MAHASISWA PRODI PKK PARIWISATA UNDIKSHA</h1>
+      <form class="hero__form" id="startForm">
+        <div class="hero__row">
+          <input class="hero__input" id="nameInput" type="text" placeholder="Masukkan nama Anda" autocomplete="name" aria-label="Masukkan nama Anda">
+          <button class="btn btn--primary" type="submit">▶ Mulai</button>
+        </div>
+        <p class="feedback is-err" id="nameError" hidden>Masukan nama Anda terlebih dahulu!</p>
+      </form>
     </div>
   </section>
 
@@ -414,7 +422,7 @@
 
 </main>
 
-<footer class="app-footer">Media Pembelajaran • Program Studi Perhotelan</footer>
+<footer class="app-footer">Media Pembelajaran • Prodi PKK Pariwisata Undiksha</footer>
 
 <script src="script.js"></script>
 </body>

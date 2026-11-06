@@ -179,11 +179,43 @@ body {
 .step-btn { margin-top: 1rem; }
 
 /* ---------- Hero (s1) ---------- */
-.hero { text-align: center; padding: 3rem 1rem; }
-.scene__icon--hero { width: 110px; height: 110px; font-size: 56px; margin: 0 auto 1.2rem; }
-.hero__title { font-size: 2rem; margin: 0 0 0.4rem; }
-.hero__subtitle { color: var(--muted); font-size: 1.1rem; margin: 0 0 0.3rem; }
-.hero__identity { color: var(--accent); font-weight: 700; margin: 0 0 1.6rem; }
+.hero { text-align: center; padding: 2.4rem 1rem 3rem; }
+.hero__kicker { text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.95rem; font-weight: 600; color: var(--muted); margin: 0 0 0.6rem; }
+.hero__title { font-size: 2rem; margin: 0 0 1.4rem; line-height: 1.3; }
+
+/* ---------- Opening video (s1) ---------- */
+.intro { position: relative; }
+.intro__video {
+  display: block;
+  width: 100%;
+  border-radius: var(--radius);
+  background: #000;
+  box-shadow: var(--shadow);
+}
+.intro__skip {
+  position: absolute;
+  right: 0.7rem;
+  bottom: 0.7rem;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  border-color: transparent;
+}
+.intro__skip:hover { color: #fff; border-color: rgba(255, 255, 255, 0.7); }
+
+/* ---------- Form nama (s1) ---------- */
+.hero__form { max-width: 430px; margin: 0 auto; }
+.hero__row { display: flex; gap: 0.6rem; }
+.hero__input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+.hero__input:focus { border-color: var(--accent); }
+.hero__form .feedback { margin-top: 0.6rem; }
 
 /* ---------- Buttons ---------- */
 .btn {
@@ -409,9 +441,9 @@ body {
 @media (max-width: 600px) {
   .brand__title { font-size: 0.95rem; }
   .scene__icon { width: 56px; height: 56px; font-size: 26px; }
-  .scene__icon--hero { width: 88px; height: 88px; font-size: 44px; }
   .scene__title { font-size: 1.25rem; }
   .hero__title { font-size: 1.5rem; }
+  .hero__row { flex-direction: column; }
   .scene__body { padding: 1rem; }
   .scene__nav .btn, .result__actions .btn, .step-btn { width: 100%; }
   .bubble { max-width: 95%; }

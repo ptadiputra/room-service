@@ -56,9 +56,46 @@
     soundOn = !soundOn;
     soundToggle.textContent = soundOn ? '🔊' : '🔇';
     soundToggle.setAttribute('aria-pressed', String(soundOn));
+    introVideo.muted = !soundOn;
     if (soundOn) speak(scenes[current - 1].dataset.narasi);
     else cancelSpeech();
   });
+
+  /* ---------- Pembukaan: video intro + kartu nama ---------- */
+  var intro = document.getElementById('intro');
+  var introVideo = document.getElementById('introVideo');
+  var heroCard = document.getElementById('heroCard');
+  var nameInput = document.getElementById('nameInput');
+  var nameError = document.getElementById('nameError');
+
+  function endIntro() {
+    introVideo.pause();
+    intro.hidden = true;
+    heroCard.hidden = false;
+  }
+
+  introVideo.addEventListener('ended', endIntro);
+  introVideo.addEventListener('error', endIntro);
+  document.getElementById('skipIntro').addEventListener('click', endIntro);
+
+  // autoplay bersuara; jika diblokir browser, ulangi tanpa suara
+  introVideo.play().catch(function () {
+    introVideo.muted = true;
+    introVideo.play().catch(function () {});
+  });
+
+  document.getElementById('startForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!nameInput.value.trim()) {
+      nameError.hidden = false;
+      nameInput.focus();
+      return;
+    }
+    nameError.hidden = true;
+    goTo(2);
+  });
+
+  nameInput.addEventListener('input', function () { nameError.hidden = true; });
 
   /* ---------- Navigasi adegan ---------- */
   function goTo(num) {
