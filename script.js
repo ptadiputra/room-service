@@ -21,20 +21,22 @@
   var lastScore = null;
   var TOTAL = scenes.length;
 
-  /* ---------- TTS ---------- */
+  /* ---------- Speech Synthesis ---------- */
   function findVoice() {
     try {
       var vs = speechSynthesis.getVoices();
       voice = vs.filter(function (v) {
         return (v.lang || '').toLowerCase().indexOf('id') === 0;
       })[0] || null;
-    } catch (e) { /* tanpa TTS: materi tetap terbaca */ }
+    } catch (e) {}
   }
 
   try {
     findVoice();
-    speechSynthesis.addEventListener('voiceschanged', findVoice);
-  } catch (e) { /* browser tanpa speechSynthesis */ }
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+      speechSynthesis.onvoiceschanged = findVoice;
+    }
+  } catch (e) {}
 
   function cancelSpeech() {
     try { speechSynthesis.cancel(); } catch (e) {}
@@ -54,14 +56,14 @@
 
   soundToggle.addEventListener('click', function () {
     soundOn = !soundOn;
-    soundToggle.textContent = soundOn ? '🔊' : '🔇';
+    soundToggle.querySelector('.sound-icon').textContent = soundOn ? '🔊' : '🔇';
     soundToggle.setAttribute('aria-pressed', String(soundOn));
-    introVideo.muted = !soundOn;
+    if (introVideo) introVideo.muted = !soundOn;
     if (soundOn) speak(scenes[current - 1].dataset.narasi);
     else cancelSpeech();
   });
 
-  /* ---------- Pembukaan: video intro + kartu nama ---------- */
+  /* ---------- Intro Video & User Form ---------- */
   var intro = document.getElementById('intro');
   var introVideo = document.getElementById('introVideo');
   var heroCard = document.getElementById('heroCard');
@@ -69,20 +71,21 @@
   var nameError = document.getElementById('nameError');
 
   function endIntro() {
-    introVideo.pause();
-    intro.hidden = true;
-    heroCard.hidden = false;
+    if (introVideo) introVideo.pause();
+    if (intro) intro.hidden = true;
+    if (heroCard) heroCard.hidden = false;
   }
 
-  introVideo.addEventListener('ended', endIntro);
-  introVideo.addEventListener('error', endIntro);
-  document.getElementById('skipIntro').addEventListener('click', endIntro);
+  if (introVideo) {
+    introVideo.addEventListener('ended', endIntro);
+    introVideo.addEventListener('error', endIntro);
+    document.getElementById('skipIntro').addEventListener('click', endIntro);
 
-  // autoplay bersuara; jika diblokir browser, ulangi tanpa suara
-  introVideo.play().catch(function () {
-    introVideo.muted = true;
-    introVideo.play().catch(function () {});
-  });
+    introVideo.play().catch(function () {
+      introVideo.muted = true;
+      introVideo.play().catch(function () {});
+    });
+  }
 
   document.getElementById('startForm').addEventListener('submit', function (e) {
     e.preventDefault();
@@ -97,7 +100,7 @@
 
   nameInput.addEventListener('input', function () { nameError.hidden = true; });
 
-  /* ---------- Navigasi adegan ---------- */
+  /* ---------- Scene Navigation ---------- */
   function goTo(num) {
     cancelSpeech();
     scenes.forEach(function (s) { s.classList.remove('is-active'); });
@@ -115,7 +118,7 @@
     if (current > 1 && current !== 11) goTo(current - 1);
   });
 
-  /* ---------- Tahapan materi (klik per langkah) ---------- */
+  /* ---------- Step Revealer ---------- */
   function sceneSteps(scene) {
     return Array.prototype.slice.call(scene.querySelectorAll('.step'));
   }
@@ -137,8 +140,8 @@
       if (nav) nav.hidden = true;
       var btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = 'btn btn--secondary step-btn';
-      btn.textContent = 'Tampilkan berikutnya ▸';
+      btn.className = 'btn step-btn';
+      btn.textContent = 'Tampilkan Poin Berikutnya ▸';
       btn.addEventListener('click', function () { revealStep(scene); });
       scene.querySelector('.scene__body').appendChild(btn);
     });
@@ -151,7 +154,8 @@
     });
     scene.__revealed++;
     if (scene.__revealed >= scene.__stepGroups.length) {
-      scene.querySelector('.step-btn').hidden = true;
+      var stepBtn = scene.querySelector('.step-btn');
+      if (stepBtn) stepBtn.hidden = true;
       var nav = scene.querySelector('.scene__nav');
       if (nav) nav.hidden = false;
     }
@@ -163,13 +167,14 @@
       if (!steps.length) return;
       steps.forEach(function (s) { s.hidden = true; });
       scene.__revealed = 0;
-      scene.querySelector('.step-btn').hidden = false;
+      var stepBtn = scene.querySelector('.step-btn');
+      if (stepBtn) stepBtn.hidden = false;
       var nav = scene.querySelector('.scene__nav');
       if (nav) nav.hidden = true;
     });
   }
 
-  /* ---------- Quiz generik ---------- */
+  /* ---------- Quiz Logic ---------- */
   function resetQuiz(quiz) {
     delete quiz.dataset.done;
     delete quiz.dataset.scored;
@@ -180,7 +185,8 @@
     fb.hidden = true;
     fb.className = 'feedback';
     fb.textContent = '';
-    quiz.querySelector('.after').hidden = true;
+    var after = quiz.querySelector('.after');
+    if (after) after.hidden = true;
   }
 
   function showOk(quiz, text) {
@@ -195,14 +201,15 @@
     var fb = quiz.querySelector('.feedback');
     fb.hidden = false;
     fb.className = 'feedback is-err';
-    fb.innerHTML = '<p>✕ Belum tepat. Perhatikan kembali materi di atas.</p>' +
-      '<button class="btn btn--retry" type="button">↻ Coba Lagi</button>';
+    fb.innerHTML = '<p>✕ Jawaban belum tepat. Yuk perhatikan lagi materinya.</p>' +
+      '<button class="btn btn--secondary btn--retry" type="button" style="margin-top:0.5rem; padding:0.35rem 0.8rem; font-size:0.85rem;">Coba Lagi</button>';
   }
 
   function onCorrect(quiz) {
     quiz.dataset.done = '1';
-    quiz.querySelector('.after').hidden = false;
-    showOk(quiz, quiz.dataset.pembahasan || 'Jawaban benar.');
+    var after = quiz.querySelector('.after');
+    if (after) after.hidden = false;
+    showOk(quiz, quiz.dataset.pembahasan || 'Jawaban Kamu Benar!');
     if (quiz.closest('#s11')) evalCorrect(quiz);
   }
 
@@ -265,11 +272,11 @@
     }
   });
 
-  /* ---------- Evaluasi ---------- */
+  /* ---------- Evaluation Management ---------- */
   function updateEvalStatus() {
     var done = evalQuizzes.filter(function (q) { return q.dataset.done; }).length;
     evalStatus.textContent = 'Soal ' + Math.min(done + 1, evalQuizzes.length) +
-      '/' + evalQuizzes.length + ' · Skor ' + evalScore;
+      '/' + evalQuizzes.length + ' · Skor Saat Ini: ' + evalScore;
   }
 
   function evalCorrect(quiz) {
@@ -284,12 +291,12 @@
     } else {
       lastScore = evalScore;
       evalScoreEl.textContent = evalScore + '/' + evalQuizzes.length;
-      evalComment.textContent = evalScore === 5 ? 'Sangat baik!'
-        : evalScore >= 3 ? 'Bagus, tinjau lagi materi.'
-        : 'Pelajari kembali materi.';
+      evalComment.textContent = evalScore === 5 ? 'Kerja bagus! Kamu paham betul seluruh SOP Room Service.'
+        : evalScore >= 3 ? 'Bagus! Kamu sudah memahami dasar prosedur dengan baik.'
+        : 'Yuk pelajari kembali modulnya agar pemahamanmu makin matang!';
       evalResult.hidden = false;
-      evalStatus.textContent = 'Selesai · Skor ' + evalScore;
-      finalBadge.textContent = 'Skor evaluasi terakhir: ' + evalScore + '/' + evalQuizzes.length;
+      evalStatus.textContent = 'Ujian Selesai · Skor Akhir: ' + evalScore;
+      finalBadge.textContent = 'Skor Evaluasi Kamu: ' + evalScore + '/' + evalQuizzes.length;
       finalBadge.hidden = false;
     }
   }
@@ -307,7 +314,7 @@
 
   document.getElementById('evalReset').addEventListener('click', resetEval);
 
-  /* ---------- Restart & selesai ---------- */
+  /* ---------- Restart & Finish ---------- */
   function restartAll() {
     document.querySelectorAll('.quiz').forEach(resetQuiz);
     resetEval();
@@ -325,7 +332,7 @@
     s12.querySelector('.done-card').hidden = false;
   });
 
-  /* ---------- Init ---------- */
+  /* ---------- Initialization ---------- */
   initSteps();
   goTo(1);
 })();

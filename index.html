@@ -1,429 +1,626 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>VIDEO INTERAKTIF KETERAMPILAN PEMESANAN ROOM SERVICE MAHASISWA PRODI PKK PARIWISATA UNDIKSHA</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Room Service Interaktif - Undiksha</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header class="app-header">
-  <div class="brand">
-    <span class="brand__logo" aria-hidden="true">📞</span>
-    <span class="brand__title">Room Service Interaktif</span>
-  </div>
-  <div class="header-meta">
-    <span class="scene-label">Adegan <span id="sceneNum">1</span>/12</span>
-    <button id="soundToggle" class="icon-btn" type="button" aria-label="Nyalakan atau matikan suara" aria-pressed="true">🔊</button>
-    <button id="prevBtn" class="btn btn--ghost" type="button" hidden>‹ Kembali</button>
-  </div>
-  <div class="progress" role="progressbar" aria-label="Kemajuan materi" aria-valuemin="1" aria-valuemax="12">
-    <div class="progress__bar" id="progressBar"></div>
-  </div>
-</header>
-
-<main id="stage">
-
-  <!-- Adegan 1 — Pembukaan: video intro + kartu judul -->
-  <section class="scene scene--hero is-active" id="s1">
-    <div class="intro" id="intro">
-      <video class="intro__video" id="introVideo" src="opening.mp4" playsinline preload="auto" aria-label="Video pembuka"></video>
-      <button class="btn btn--ghost intro__skip" id="skipIntro" type="button">Lewati ▸</button>
-    </div>
-    <div class="hero" id="heroCard" hidden>
-      <p class="hero__kicker">SELAMAT DATANG DI MEDIA INTERAKTIF</p>
-      <h1 class="hero__title">VIDEO INTERAKTIF KETERAMPILAN PEMESANAN ROOM SERVICE MAHASISWA PRODI PKK PARIWISATA UNDIKSHA</h1>
-      <form class="hero__form" id="startForm">
-        <div class="hero__row">
-          <input class="hero__input" id="nameInput" type="text" placeholder="Masukkan nama Anda" autocomplete="name" aria-label="Masukkan nama Anda">
-          <button class="btn btn--primary" type="submit">▶ Mulai</button>
+  <!-- Top App Bar Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand">
+        <div class="brand__logo-box">
+          <span class="brand__logo" aria-hidden="true">📞</span>
         </div>
-        <p class="feedback is-err" id="nameError" hidden>Masukan nama Anda terlebih dahulu!</p>
-      </form>
-    </div>
-  </section>
-
-  <!-- Adegan 2 — Tujuan Pembelajaran -->
-  <section class="scene" id="s2" data-narasi="Tujuan pembelajaran. Mahasiswa diharapkan mampu: satu, menerapkan prosedur pemesanan room service melalui telepon. Dua, mencatat pesanan secara sistematis dan akurat. Tiga, melakukan konfirmasi pesanan sebelum diteruskan. Empat, menangani permintaan tamu sesuai SOP hotel.">
-    <div class="scene__head">
-      <div class="scene__icon" aria-hidden="true">🎯</div>
-      <div>
-        <span class="scene__badge">Adegan 2</span>
-        <h2 class="scene__title">Tujuan Pembelajaran</h2>
-      </div>
-    </div>
-    <div class="scene__body">
-      <p>Setelah mengikuti media pembelajaran ini, mahasiswa diharapkan mampu:</p>
-      <ol class="goal-list">
-        <li class="step" data-step="1">Menerapkan prosedur pemesanan room service melalui telepon;</li>
-        <li class="step" data-step="2">Mencatat pesanan secara sistematis dan akurat;</li>
-        <li class="step" data-step="3">Melakukan konfirmasi pesanan sebelum diteruskan;</li>
-        <li class="step" data-step="4">Menangani permintaan tamu sesuai SOP hotel.</li>
-      </ol>
-    </div>
-    <div class="scene__nav">
-      <button class="btn btn--primary" type="button" data-goto="s3">Lanjut</button>
-    </div>
-  </section>
-
-  <!-- Adegan 3 — Pengenalan Room Service -->
-  <section class="scene" id="s3" data-narasi="Pengenalan room service. Room service adalah layanan makanan dan minuman yang diantar langsung ke kamar tamu. Fungsinya memberi kenyamanan bagi tamu yang tidak ingin meninggalkan kamar. Peranannya, room service adalah wajah pelayanan F dan B hotel. Kualitas pesanan dan cara melayani telepon mencerminkan citra hotel.">
-    <div class="scene__head">
-      <div class="scene__icon" aria-hidden="true">🛎️</div>
-      <div>
-        <span class="scene__badge">Adegan 3</span>
-        <h2 class="scene__title">Pengenalan Room Service</h2>
-      </div>
-    </div>
-    <div class="scene__body">
-      <div class="card step" data-step="1">
-        <h3>Apa itu room service?</h3>
-        <p>Room service adalah layanan makanan dan minuman yang diantar langsung ke kamar tamu.</p>
-      </div>
-      <div class="card step" data-step="2">
-        <h3>Fungsi</h3>
-        <p>Memberi kenyamanan bagi tamu yang tidak ingin meninggalkan kamar.</p>
-      </div>
-      <div class="card step" data-step="3">
-        <h3>Peranan</h3>
-        <p>Room service adalah <strong>wajah pelayanan F&amp;B hotel</strong> — kualitas pesanan dan cara melayani telepon mencerminkan citra hotel.</p>
-      </div>
-    </div>
-    <div class="scene__nav">
-      <button class="btn btn--primary" type="button" data-goto="s4">Lihat Prosedur</button>
-    </div>
-  </section>
-
-  <!-- Adegan 4 — Menerima Telepon + Latihan 1 -->
-  <section class="scene" id="s4" data-narasi="Menerima telepon. Angkat telepon dalam tiga nada. Ucapkan salam pembuka: Selamat siang, Room Service, nama petugas, dengan senang hati membantu Anda. Sebutkan bagian pelayanan, perkenalkan diri, lalu tawarkan bantuan.">
-    <div class="scene__head">
-      <div class="scene__icon" aria-hidden="true">☎️</div>
-      <div>
-        <span class="scene__badge">Adegan 4</span>
-        <h2 class="scene__title">Menerima Telepon</h2>
-      </div>
-    </div>
-    <div class="scene__body">
-      <div class="card step" data-step="1">
-        <h3>Etika menerima telepon</h3>
-        <ul>
-          <li>Angkat telepon dalam <strong>3 nada</strong>;</li>
-          <li>Ucapkan salam pembuka: <em>"Selamat siang, Room Service, [Nama] dengan senang hati membantu Anda."</em>;</li>
-          <li>Sebutkan bagian pelayanan;</li>
-          <li>Perkenalkan diri;</li>
-          <li>Tawarkan bantuan.</li>
-        </ul>
-      </div>
-      <h3 class="subheading step" data-step="2">Contoh dialog</h3>
-      <div class="chat">
-        <div class="bubble bubble--staff step" data-step="2"><span>🛎️ Selamat siang, Room Service, Andi dengan senang hati membantu Anda.</span></div>
-        <div class="bubble bubble--guest step" data-step="3"><span>Selamat siang, Andi. Saya mau pesan makan siang untuk kamar 305. 👤</span></div>
-        <div class="bubble bubble--staff step" data-step="4"><span>🛎️ Baik, silakan. Apa pesanan Anda?</span></div>
-      </div>
-      <h3 class="subheading step" data-step="5">Latihan 1</h3>
-      <div class="quiz step" data-step="5" data-jawaban="1" data-pembahasan="Salam pembuka yang sopan menyebutkan nama bagian dan menawarkan bantuan.">
-        <p class="q">Salam pembuka yang tepat saat menerima telepon pesanan room service?</p>
-        <div class="opts">
-          <button class="opt" type="button">A. Halo, ya?</button>
-          <button class="opt" type="button">B. Selamat siang, Room Service, ada yang bisa saya bantu?</button>
-          <button class="opt" type="button">C. Tunggu sebentar.</button>
-          <button class="opt" type="button">D. Anda mau pesan apa?</button>
-        </div>
-        <div class="feedback" hidden></div>
-        <div class="after" hidden><button class="btn btn--primary" type="button" data-goto="s5">Lanjut</button></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Adegan 5 — Mengidentifikasi Tamu -->
-  <section class="scene" id="s5" data-narasi="Mengidentifikasi tamu. Sebelum mencatat pesanan, pastikan identitas tamu. Tanyakan dan catat nama tamu serta nomor kamar dengan jelas. Ulangi nomor kamar untuk memastikan tidak terjadi kesalahan pengantaran.">
-    <div class="scene__head">
-      <div class="scene__icon" aria-hidden="true">🪪</div>
-      <div>
-        <span class="scene__badge">Adegan 5</span>
-        <h2 class="scene__title">Mengidentifikasi Tamu</h2>
-      </div>
-    </div>
-    <div class="scene__body">
-      <div class="card step" data-step="1">
-        <p>Sebelum mencatat pesanan, pastikan identitas tamu: tanyakan dan catat <strong>nama tamu</strong> serta <strong>nomor kamar</strong> dengan jelas.</p>
-        <p>Ulangi nomor kamar untuk memastikan tidak terjadi kesalahan pengantaran.</p>
-      </div>
-      <div class="quiz step" data-step="2" data-jawaban="1" data-pembahasan="Identitas tamu dan nomor kamar mencegah pesanan salah kirim.">
-        <p class="q">Informasi apa yang wajib dipastikan dicatat sebelum mencatat pesanan?</p>
-        <div class="opts">
-          <button class="opt" type="button">A. Hanya nomor kamar.</button>
-          <button class="opt" type="button">B. Nama tamu dan nomor kamar.</button>
-          <button class="opt" type="button">C. Nama tamu saja.</button>
-          <button class="opt" type="button">D. Tidak perlu mencatat.</button>
-        </div>
-        <div class="feedback" hidden></div>
-        <div class="after" hidden><button class="btn btn--primary" type="button" data-goto="s6">Lanjut</button></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Adegan 6 — Teknik Order Taking (multi-select) -->
-  <section class="scene" id="s6" data-narasi="Teknik order taking. Dengarkan secara aktif tanpa memotong. Catat pesanan secara sistematis: nomor kamar, menu, jumlah, dan permintaan khusus. Klarifikasi bagian yang belum jelas dengan sopan, dan sebutkan ulang item yang tidak terdengar jelas.">
-    <div class="scene__head">
-      <div class="scene__icon" aria-hidden="true">📝</div>
-      <div>
-        <span class="scene__badge">Adegan 6</span>
-        <h2 class="scene__title">Teknik Order Taking</h2>
-      </div>
-    </div>
-    <div class="scene__body">
-      <div class="card step" data-step="1">
-        <ul>
-          <li>Dengarkan secara aktif tanpa memotong;</li>
-          <li>Catat secara sistematis (nomor kamar, menu, jumlah, permintaan khusus);</li>
-          <li>Klarifikasi bagian yang belum jelas dengan sopan;</li>
-          <li>Sebutkan ulang item yang tidak terdengar jelas.</li>
-        </ul>
-      </div>
-      <div class="quiz step" data-step="2" data-multi="0,1,2,4" data-pembahasan="Catat semua informasi yang berhubungan dengan pesanan dan pengantaran.">
-        <p class="q">Pilih informasi yang perlu dicatat petugas saat menerima pesanan:</p>
-        <div class="opts">
-          <button class="opt" type="button">A. Menu atau nama makanan</button>
-          <button class="opt" type="button">B. Jumlah pesanan</button>
-          <button class="opt" type="button">C. Nomor kamar</button>
-          <button class="opt" type="button">D. Jadwal istirahat petugas laundry</button>
-          <button class="opt" type="button">E. Permintaan khusus tamu</button>
-          <button class="opt" type="button">F. Hobi tamu</button>
-        </div>
-        <div class="check"><button class="btn btn--secondary btn-check" type="button">Periksa Jawaban</button></div>
-        <div class="feedback" hidden></div>
-        <div class="after" hidden><button class="btn btn--primary" type="button" data-goto="s7">Lanjut</button></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Adegan 7 — Konfirmasi Pesanan -->
-  <section class="scene" id="s7" data-narasi="Konfirmasi pesanan. Setelah mencatat, ulangi seluruh pesanan kepada tamu: menu, jumlah, nomor kamar, waktu pengantaran, dan informasi tambahan. Konfirmasi mencegah kesalahan pencatatan dan pesanan yang salah kirim.">
-    <div class="scene__head">
-      <div class="scene__icon" aria-hidden="true">✅</div>
-      <div>
-        <span class="scene__badge">Adegan 7</span>
-        <h2 class="scene__title">Konfirmasi Pesanan</h2>
-      </div>
-    </div>
-    <div class="scene__body">
-      <div class="card step" data-step="1">
-        <p>Setelah mencatat, ulangi seluruh pesanan: <strong>menu, jumlah, nomor kamar, waktu pengantaran,</strong> dan informasi tambahan.</p>
-        <p>Konfirmasi mencegah kesalahan pencatatan dan pesanan yang salah kirim.</p>
-      </div>
-      <div class="quiz step" data-step="2" data-jawaban="1" data-pembahasan="Konfirmasi mencegah kesalahan pencatatan.">
-        <p class="q">Apa tujuan mengulangi pesanan kepada tamu?</p>
-        <div class="opts">
-          <button class="opt" type="button">A. Memperpanjang percakapan.</button>
-          <button class="opt" type="button">B. Memastikan pesanan yang dicatat sudah sesuai.</button>
-          <button class="opt" type="button">C. Menguji ingatan tamu.</button>
-          <button class="opt" type="button">D. Menunggu waktu pengantaran.</button>
-        </div>
-        <div class="feedback" hidden></div>
-        <div class="after" hidden><button class="btn btn--primary" type="button" data-goto="s8">Lanjut</button></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Adegan 8 — Menutup Percakapan -->
-  <section class="scene" id="s8" data-narasi="Menutup percakapan. Ucapkan terima kasih, sampaikan perkiraan waktu pengantaran, dan tutup dengan sopan. Contoh: Terima kasih, pesanan Anda akan segera kami antar. Selamat menikmati.">
-    <div class="scene__head">
-      <div class="scene__icon" aria-hidden="true">🗨️</div>
-      <div>
-        <span class="scene__badge">Adegan 8</span>
-        <h2 class="scene__title">Menutup Percakapan</h2>
-      </div>
-    </div>
-    <div class="scene__body">
-      <div class="card step" data-step="1">
-        <p>Ucapkan terima kasih, sampaikan perkiraan waktu pengantaran, dan tutup dengan sopan.</p>
-      </div>
-      <h3 class="subheading step" data-step="2">Contoh kalimat penutup</h3>
-      <div class="chat">
-        <div class="bubble bubble--staff step" data-step="2"><span>🛎️ Terima kasih, pesanan Anda akan segera kami antar. Selamat menikmati.</span></div>
-      </div>
-    </div>
-    <div class="scene__nav">
-      <button class="btn btn--primary" type="button" data-goto="s9">Lanjut</button>
-    </div>
-  </section>
-
-  <!-- Adegan 9 — Menangani Permintaan Tamu -->
-  <section class="scene" id="s9" data-narasi="Menangani permintaan tamu. Skenario: tamu mengubah jumlah pesanan dari dua menjadi tiga porsi dan menambahkan permintaan tanpa gula, padahal pesanan sudah dikonfirmasi. Tindakan yang tepat: dengarkan dengan tenang, konfirmasi ulang perubahan, catat, lalu teruskan ke bagian terkait, kitchen atau FSO, sesuai SOP.">
-    <div class="scene__head">
-      <div class="scene__icon" aria-hidden="true">🙋</div>
-      <div>
-        <span class="scene__badge">Adegan 9</span>
-        <h2 class="scene__title">Menangani Permintaan Tamu</h2>
-      </div>
-    </div>
-    <div class="scene__body">
-      <div class="card step" data-step="1">
-        <h3>Skenario</h3>
-        <p>Tamu mengubah jumlah pesanan dari 2 menjadi 3 porsi dan menambahkan permintaan tanpa gula, padahal pesanan sudah dikonfirmasi.</p>
-      </div>
-      <div class="chat">
-        <div class="bubble bubble--guest step" data-step="2"><span>Maaf, pesanan saya tadi 2 porsi, tolong jadi 3 porsi. Dan yang teh, tanpa gula ya. 👤</span></div>
-        <div class="bubble bubble--staff step" data-step="3"><span>🛎️ Baik, saya catat: menjadi 3 porsi dan teh tanpa gula. Saya konfirmasi ulang dan teruskan segera.</span></div>
-      </div>
-      <div class="quiz step" data-step="4" data-jawaban="1" data-pembahasan="Perubahan wajib dicatat dan diteruskan sesuai SOP agar pesanan tetap akurat.">
-        <p class="q">Apa tindakan petugas yang paling tepat saat tamu mengubah pesanan setelah konfirmasi?</p>
-        <div class="opts">
-          <button class="opt" type="button">A. Mengabaikan karena sudah dikonfirmasi.</button>
-          <button class="opt" type="button">B. Mendengarkan, mencatat perubahan, mengonfirmasi ulang, lalu meneruskan ke bagian terkait.</button>
-          <button class="opt" type="button">C. Menolak perubahan.</button>
-          <button class="opt" type="button">D. Meminta tamu menelepon ulang nanti.</button>
-        </div>
-        <div class="feedback" hidden></div>
-        <div class="after" hidden><button class="btn btn--primary" type="button" data-goto="s10">Lanjut</button></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Adegan 10 — Tindak Lanjut Pesanan -->
-  <section class="scene" id="s10" data-narasi="Tindak lanjut pesanan. Alurnya: satu, pencatatan pesanan lengkap. Dua, konfirmasi kepada tamu. Tiga, penerusan ke kitchen atau F S O dan pembuatan bill. Setiap pesanan diteruskan dengan informasi lengkap dan akurat agar tidak terjadi selisih.">
-    <div class="scene__head">
-      <div class="scene__icon" aria-hidden="true">🔄</div>
-      <div>
-        <span class="scene__badge">Adegan 10</span>
-        <h2 class="scene__title">Tindak Lanjut Pesanan</h2>
-      </div>
-    </div>
-    <div class="scene__body">
-      <div class="flow">
-        <div class="flow-box step" data-step="1"><span class="flow-num" aria-hidden="true">①</span> Pencatatan pesanan lengkap</div>
-        <div class="flow-arrow step" data-step="2" aria-hidden="true">➜</div>
-        <div class="flow-box step" data-step="2"><span class="flow-num" aria-hidden="true">②</span> Konfirmasi kepada tamu</div>
-        <div class="flow-arrow step" data-step="3" aria-hidden="true">➜</div>
-        <div class="flow-box step" data-step="3"><span class="flow-num" aria-hidden="true">③</span> Penerusan ke kitchen/FSO + pembuatan bill</div>
-      </div>
-      <div class="card step" data-step="4">
-        <p>Setiap pesanan diteruskan dengan <strong>informasi lengkap dan akurat</strong> agar tidak terjadi selisih.</p>
-      </div>
-    </div>
-    <div class="scene__nav">
-      <button class="btn btn--primary" type="button" data-goto="s11">Uji Pemahaman</button>
-    </div>
-  </section>
-
-  <!-- Adegan 11 — Evaluasi Interaktif -->
-  <section class="scene" id="s11" data-narasi="Evaluasi interaktif. Lima soal pilihan ganda. Kerjakan dengan teliti. Skor akan dihitung otomatis.">
-    <div class="scene__head">
-      <div class="scene__icon" aria-hidden="true">🏆</div>
-      <div>
-        <span class="scene__badge">Adegan 11</span>
-        <h2 class="scene__title">Evaluasi Interaktif</h2>
-      </div>
-    </div>
-    <div class="scene__body">
-      <p id="evalStatus" class="eval-status">Soal 1/5 · Skor 0</p>
-
-      <div class="quiz" data-jawaban="1" data-pembahasan="Salam pembuka dan perkenalan diri adalah etika pertama dalam menerima telepon.">
-        <p class="q">1. Apa yang harus dilakukan pertama kali saat menerima telepon pesanan?</p>
-        <div class="opts">
-          <button class="opt" type="button">A. Langsung menanyakan pesanan.</button>
-          <button class="opt" type="button">B. Mengucapkan salam pembuka dan memperkenalkan diri beserta bagiannya.</button>
-          <button class="opt" type="button">C. Menutup telepon jika tidak terdengar.</button>
-          <button class="opt" type="button">D. Menanyakan nama tamu lebih dulu.</button>
-        </div>
-        <div class="feedback" hidden></div>
-        <div class="after" hidden></div>
-      </div>
-
-      <div class="quiz" data-jawaban="1" data-pembahasan="Identitas tamu dan nomor kamar mencegah pesanan salah kirim." hidden>
-        <p class="q">2. Informasi apa yang wajib dicatat sebelum mencatat pesanan?</p>
-        <div class="opts">
-          <button class="opt" type="button">A. Hanya nomor kamar.</button>
-          <button class="opt" type="button">B. Nama tamu dan nomor kamar.</button>
-          <button class="opt" type="button">C. Nama tamu saja.</button>
-          <button class="opt" type="button">D. Tidak perlu mencatat.</button>
-        </div>
-        <div class="feedback" hidden></div>
-        <div class="after" hidden></div>
-      </div>
-
-      <div class="quiz" data-jawaban="1" data-pembahasan="Konfirmasi mencegah kesalahan pencatatan pesanan." hidden>
-        <p class="q">3. Apa tujuan konfirmasi pesanan?</p>
-        <div class="opts">
-          <button class="opt" type="button">A. Memperpanjang percakapan.</button>
-          <button class="opt" type="button">B. Memastikan pesanan yang dicatat sudah sesuai keinginan tamu.</button>
-          <button class="opt" type="button">C. Menguji ingatan tamu.</button>
-          <button class="opt" type="button">D. Menunggu pesanan siap.</button>
-        </div>
-        <div class="feedback" hidden></div>
-        <div class="after" hidden></div>
-      </div>
-
-      <div class="quiz" data-jawaban="1" data-pembahasan="Perubahan pesanan wajib dicatat, dikonfirmasi ulang, dan diteruskan sesuai SOP." hidden>
-        <p class="q">4. Jika tamu mengubah pesanan setelah dikonfirmasi, tindakan petugas adalah…</p>
-        <div class="opts">
-          <button class="opt" type="button">A. Mengabaikan perubahan.</button>
-          <button class="opt" type="button">B. Mencatat perubahan, mengonfirmasi ulang, dan meneruskan ke bagian terkait.</button>
-          <button class="opt" type="button">C. Menolak perubahan.</button>
-          <button class="opt" type="button">D. Meminta tamu menelepon ulang nanti.</button>
-        </div>
-        <div class="feedback" hidden></div>
-        <div class="after" hidden></div>
-      </div>
-
-      <div class="quiz" data-jawaban="0" data-pembahasan="Penerusan dengan informasi lengkap dan akurat mencegah selisih pesanan." hidden>
-        <p class="q">5. Setelah pesanan dikonfirmasi, pesanan diteruskan…</p>
-        <div class="opts">
-          <button class="opt" type="button">A. Ke bagian terkait (kitchen/FSO) dengan informasi lengkap dan akurat.</button>
-          <button class="opt" type="button">B. Disimpan saja tanpa diteruskan.</button>
-          <button class="opt" type="button">C. Hanya jika tamu bertanya.</button>
-          <button class="opt" type="button">D. Tanpa perlu informasi lengkap.</button>
-        </div>
-        <div class="feedback" hidden></div>
-        <div class="after" hidden></div>
-      </div>
-
-      <div class="result" id="evalResult" hidden>
-        <div class="result__score" id="evalScore">0/5</div>
-        <p class="result__comment" id="evalComment"></p>
-        <div class="result__actions">
-          <button class="btn btn--secondary" type="button" id="evalReset">↻ Ulangi Evaluasi</button>
-          <button class="btn btn--primary" type="button" data-goto="s12">Lanjut ke Penutup</button>
+        <div class="brand__info">
+          <span class="brand__title">Room Service Lab</span>
+          <span class="brand__subtitle">Prodi PKK Pariwisata Undiksha</span>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- Adegan 12 — Penutup -->
-  <section class="scene" id="s12" data-narasi="Rangkuman. Satu, komunikasi sopan sejak salam pembuka. Dua, pencatatan teliti: nama, kamar, menu, jumlah, dan permintaan khusus. Tiga, konfirmasi sebelum meneruskan pesanan. Empat, tindak lanjut pesanan sesuai S O P hotel. Terima kasih, selamat belajar.">
-    <div class="scene__head">
-      <div class="scene__icon" aria-hidden="true">📖</div>
-      <div>
-        <span class="scene__badge">Adegan 12</span>
-        <h2 class="scene__title">Penutup &amp; Rangkuman</h2>
+      <div class="header-meta">
+        <span class="scene-badge-top">Adegan <span id="sceneNum">1</span>/12</span>
+        <button id="soundToggle" class="icon-btn" type="button" aria-label="Nyalakan/Matikan suara" aria-pressed="true">
+          <span class="sound-icon">🔊</span>
+        </button>
+        <button id="prevBtn" class="btn btn--ghost" type="button" hidden>‹ Kembali</button>
       </div>
     </div>
-    <div class="scene__body">
-      <ul class="summary-list">
-        <li class="step" data-step="1">Komunikasi sopan sejak salam pembuka;</li>
-        <li class="step" data-step="2">Pencatatan teliti (nama, kamar, menu, jumlah, permintaan khusus);</li>
-        <li class="step" data-step="3">Konfirmasi sebelum meneruskan pesanan;</li>
-        <li class="step" data-step="4">Tindak lanjut pesanan sesuai SOP hotel.</li>
-      </ul>
-      <p class="thanks step" data-step="5">Terima kasih telah mengikuti media pembelajaran ini. Selamat belajar! 🎓</p>
-      <p class="final-badge" id="finalBadge" hidden></p>
-      <div class="done-card" hidden>
-        <div class="done-card__icon" aria-hidden="true">🎓</div>
-        <p class="done-card__text">Terima kasih, materi selesai.<br>Selamat belajar!</p>
+    
+    <div class="progress" role="progressbar" aria-label="Kemajuan materi" aria-valuemin="1" aria-valuemax="12">
+      <div class="progress__bar" id="progressBar"></div>
+    </div>
+  </header>
+
+  <main id="stage">
+
+    <!-- Adegan 1 — Intro Video & Hero Card -->
+    <section class="scene scene--hero is-active" id="s1">
+      <div class="intro" id="intro">
+        <div class="video-container">
+          <video class="intro__video" id="introVideo" src="opening.mp4" playsinline preload="auto" aria-label="Video pembuka"></video>
+          <button class="btn btn--glass intro__skip" id="skipIntro" type="button">Lewati Video ▸</button>
+        </div>
       </div>
-    </div>
-    <div class="scene__nav">
-      <button class="btn btn--secondary" type="button" data-goto="restart">↻ Ulangi Materi</button>
-      <button class="btn btn--primary" type="button" id="doneBtn">✓ Selesai</button>
-    </div>
-  </section>
+      
+      <div class="hero-card" id="heroCard" hidden>
+        <div class="hero__badge">✨ Media Pembelajaran Interaktif</div>
+        <h1 class="hero__title">Keterampilan Pemesanan Room Service</h1>
+        <p class="hero__subtitle">Simulasi Digital Order Taking untuk Mahasiswa Pariwisata Undiksha</p>
+        
+        <form class="hero__form" id="startForm">
+          <div class="form-group">
+            <label for="nameInput" class="input-label">Siapa nama kamu?</label>
+            <div class="hero__row">
+              <input class="hero__input" id="nameInput" type="text" placeholder="Masukkan nama mahasiswa..." autocomplete="name" required>
+              <button class="btn btn--primary" type="submit">
+                <span>Mulai Belajar</span>
+                <span class="btn-icon">🚀</span>
+              </button>
+            </div>
+            <p class="feedback is-err" id="nameError" hidden>Masukkan nama kamu terlebih dahulu ya!</p>
+          </div>
+        </form>
+      </div>
+    </section>
 
-</main>
+    <!-- Adegan 2 — Tujuan Pembelajaran -->
+    <section class="scene" id="s2" data-narasi="Tujuan pembelajaran. Mahasiswa diharapkan mampu: satu, menerapkan prosedur pemesanan room service melalui telepon. Dua, mencatat pesanan secara sistematis dan akurat. Tiga, melakukan konfirmasi pesanan sebelum diteruskan. Empat, menangani permintaan tamu sesuai SOP hotel.">
+      <div class="scene__head">
+        <div class="scene__icon">🎯</div>
+        <div>
+          <span class="scene__badge">Adegan 02</span>
+          <h2 class="scene__title">Tujuan Pembelajaran</h2>
+        </div>
+      </div>
+      
+      <div class="scene__body">
+        <p class="lead-text">Setelah menyelesaikan modul interaktif ini, kamu diharapkan mampu menguasai 4 target utama berikut:</p>
+        
+        <div class="goals-grid">
+          <div class="goal-card step" data-step="1">
+            <div class="goal-card__badge">01</div>
+            <div class="goal-card__content">
+              <h3>Standar Telephony</h3>
+              <p>Menerapkan etika &amp; prosedur pemesanan room service via telepon sesuai SOP hotel.</p>
+            </div>
+          </div>
 
-<footer class="app-footer">Media Pembelajaran • Prodi PKK Pariwisata Undiksha</footer>
+          <div class="goal-card step" data-step="2">
+            <div class="goal-card__badge">02</div>
+            <div class="goal-card__content">
+              <h3>Pencatatan Akurat</h3>
+              <p>Mencatat rincian pesanan, nomor kamar, dan permintaan khusus tamu secara presisi.</p>
+            </div>
+          </div>
 
-<script src="script.js"></script>
+          <div class="goal-card step" data-step="3">
+            <div class="goal-card__badge">03</div>
+            <div class="goal-card__content">
+              <h3>Repeat Order</h3>
+              <p>Melakukan konfirmasi &amp; pengulangan pesanan sebelum diteruskan ke dapur.</p>
+            </div>
+          </div>
+
+          <div class="goal-card step" data-step="4">
+            <div class="goal-card__badge">04</div>
+            <div class="goal-card__content">
+              <h3>Penanganan Revisi</h3>
+              <p>Menangani perubahan pesanan mendadak dari tamu sesuai prosedur SOP.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scene__nav">
+        <button class="btn btn--primary" type="button" data-goto="s3">Lanjut Pembahasan ▸</button>
+      </div>
+    </section>
+
+    <!-- Adegan 3 — Pengenalan Room Service -->
+    <section class="scene" id="s3" data-narasi="Pengenalan room service. Room service adalah layanan makanan dan minuman yang diantar langsung ke kamar tamu. Fungsinya memberi kenyamanan bagi tamu yang tidak ingin meninggalkan kamar. Peranannya, room service adalah wajah pelayanan F dan B hotel. Kualitas pesanan dan cara melayani telepon mencerminkan citra hotel.">
+      <div class="scene__head">
+        <div class="scene__icon">🛎️</div>
+        <div>
+          <span class="scene__badge">Adegan 03</span>
+          <h2 class="scene__title">Pengenalan Room Service</h2>
+        </div>
+      </div>
+
+      <div class="scene__body">
+        <div class="cards-stack">
+          <div class="info-card step" data-step="1">
+            <div class="info-card__header">
+              <span class="info-card__icon">💡</span>
+              <h3>Apa itu Room Service?</h3>
+            </div>
+            <p><strong>Room Service</strong> (In-Room Dining) adalah layanan makanan dan minuman yang diantar langsung ke dalam kamar pribadi tamu hotel.</p>
+          </div>
+
+          <div class="info-card step" data-step="2">
+            <div class="info-card__header">
+              <span class="info-card__icon">🛋️</span>
+              <h3>Fungsi Utama</h3>
+            </div>
+            <p>Memberikan kenyamanan penuh bagi tamu yang ingin menikmati hidangan tanpa perlu keluar dari kamar.</p>
+          </div>
+
+          <div class="info-card step" data-step="3">
+            <div class="info-card__header">
+              <span class="info-card__icon">⭐</span>
+              <h3>Peran &amp; Citra Hotel</h3>
+            </div>
+            <p>Room Service merupakan <strong>wajah pelayanan F&amp;B hotel</strong> — ramahnya nada suara dan ketelitian kamu saat menerima telepon sangat menentukan citra hotel!</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="scene__nav">
+        <button class="btn btn--primary" type="button" data-goto="s4">Lihat Prosedur Telepon ▸</button>
+      </div>
+    </section>
+
+    <!-- Adegan 4 — Menerima Telepon -->
+    <section class="scene" id="s4" data-narasi="Menerima telepon. Angkat telepon dalam tiga nada. Ucapkan salam pembuka: Selamat siang, Room Service, nama petugas, dengan senang hati membantu Anda. Sebutkan bagian pelayanan, perkenalkan diri, lalu tawarkan bantuan.">
+      <div class="scene__head">
+        <div class="scene__icon">☎️</div>
+        <div>
+          <span class="scene__badge">Adegan 04</span>
+          <h2 class="scene__title">Etika Menerima Telepon</h2>
+        </div>
+      </div>
+
+      <div class="scene__body scene__body--split">
+        <div class="card step" data-step="1">
+          <h3>Attitude &amp; SOP Menerima Telepon:</h3>
+          <ul class="sop-list">
+            <li><span class="num-badge">1</span> Angkat gagang telepon sebelum <strong>dering ke-3</strong>.</li>
+            <li><span class="num-badge">2</span> Ucapkan salam pembuka yang ramah sesuai waktu (Pagi/Siang/Malam).</li>
+            <li><span class="num-badge">3</span> Sebutkan departemen kamu (<em>Room Service</em>).</li>
+            <li><span class="num-badge">4</span> Perkenalkan nama diri dengan jelas.</li>
+            <li><span class="num-badge">5</span> Tawarkan bantuan dengan penuh keramahan.</li>
+          </ul>
+        </div>
+
+        <div class="sim-wrapper step" data-step="2">
+          <div class="sim-header">
+            <span class="sim-dot"></span>
+            <span>Simulasi Percakapan Telepon</span>
+          </div>
+          
+          <div class="chat-display">
+            <div class="bubble bubble--staff step" data-step="2">
+              <div class="bubble__sender">Order Taker (Petugas)</div>
+              <div class="bubble__text">🛎️ "Selamat siang, Room Service dengan Andi di sini. Ada yang bisa saya bantu?"</div>
+            </div>
+
+            <div class="bubble bubble--guest step" data-step="3">
+              <div class="bubble__sender">Tamu Kamar</div>
+              <div class="bubble__text">👤 "Selamat siang Andi. Saya mau pesan makan siang untuk kamar 305."</div>
+            </div>
+
+            <div class="bubble bubble--staff step" data-step="4">
+              <div class="bubble__sender">Order Taker (Petugas)</div>
+              <div class="bubble__text">🛎️ "Baik, silakan. Apa saja menu yang ingin Anda pesan?"</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="quiz step" data-step="5" data-jawaban="1" data-pembahasan="Salam pembuka yang tepat menyebutkan nama bagian, nama petugas, serta tawaran bantuan secara sopan.">
+          <div class="quiz__label">Latihan Formatif 1</div>
+          <p class="q">Manakah salam pembuka yang paling tepat saat menerima telepon pesanan room service?</p>
+          <div class="opts">
+            <button class="opt" type="button">A. Halo, ya mau pesan apa?</button>
+            <button class="opt" type="button">B. Selamat siang, Room Service dengan Andi, ada yang bisa saya bantu?</button>
+            <button class="opt" type="button">C. Tunggu sebentar ya, room service sedang sibuk.</button>
+            <button class="opt" type="button">D. Halo kamar berapa ini?</button>
+          </div>
+          <div class="feedback" hidden></div>
+          <div class="after" hidden><button class="btn btn--primary" type="button" data-goto="s5">Lanjut ▸</button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Adegan 5 — Mengidentifikasi Tamu -->
+    <section class="scene" id="s5" data-narasi="Mengidentifikasi tamu. Sebelum mencatat pesanan, pastikan identitas tamu. Tanyakan dan catat nama tamu serta nomor kamar dengan jelas. Ulangi nomor kamar untuk memastikan tidak terjadi kesalahan pengantaran.">
+      <div class="scene__head">
+        <div class="scene__icon">🪪</div>
+        <div>
+          <span class="scene__badge">Adegan 05</span>
+          <h2 class="scene__title">Identifikasi Data Tamu</h2>
+        </div>
+      </div>
+
+      <div class="scene__body">
+        <div class="card step" data-step="1">
+          <p class="lead-text">Sebelum menginput daftar makanan/minuman, pastikan kredensial penerima pesanan tercatat valid:</p>
+          
+          <div class="grid-2col">
+            <div class="mini-box">
+              <h4>1. Nama Tamu</h4>
+              <p>Memastikan nama sesuai dengan data tamu di sistem PMS hotel.</p>
+            </div>
+            <div class="mini-box">
+              <h4>2. Nomor Kamar</h4>
+              <p>Wajib diulangi (*cross-check*) agar waiter tidak salah mengantar pesanan.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="quiz step" data-step="2" data-jawaban="1" data-pembahasan="Nama tamu dan nomor kamar adalah dua poin utama yang wajib dikonfirmasi terlebih dahulu agar tidak terjadi kesalahan pengantaran pesanan.">
+          <div class="quiz__label">Latihan Formatif 2</div>
+          <p class="q">Informasi apa yang wajib dipastikan &amp; dicatat petugas sebelum mencatat pesanan makanan?</p>
+          <div class="opts">
+            <button class="opt" type="button">A. Hanya nomor kamar saja.</button>
+            <button class="opt" type="button">B. Nama tamu dan nomor kamar.</button>
+            <button class="opt" type="button">C. Nama tamu saja.</button>
+            <button class="opt" type="button">D. Tidak perlu mencatat data tamu.</button>
+          </div>
+          <div class="feedback" hidden></div>
+          <div class="after" hidden><button class="btn btn--primary" type="button" data-goto="s6">Lanjut ▸</button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Adegan 6 — Teknik Order Taking -->
+    <section class="scene" id="s6" data-narasi="Teknik order taking. Dengarkan secara aktif tanpa memotong. Catat pesanan secara sistematis: nomor kamar, menu, jumlah, dan permintaan khusus. Klarifikasi bagian yang belum jelas dengan sopan, dan sebutkan ulang item yang tidak terdengar jelas.">
+      <div class="scene__head">
+        <div class="scene__icon">📝</div>
+        <div>
+          <span class="scene__badge">Adegan 06</span>
+          <h2 class="scene__title">Teknik Order Taking</h2>
+        </div>
+      </div>
+
+      <div class="scene__body">
+        <div class="card step" data-step="1">
+          <h3>Prinsip Order Taking yang Baik:</h3>
+          <ul class="check-list">
+            <li>Dengarkan secara aktif tanpa memotong pembicaraan tamu.</li>
+            <li>Catat secara sistematis (nomor kamar, menu, porsi, &amp; *special request*).</li>
+            <li>Klarifikasi bagian yang kurang jelas secara sopan.</li>
+            <li>Ulangi kembali item pesanan yang terdengar samar.</li>
+          </ul>
+        </div>
+
+        <div class="quiz step" data-step="2" data-multi="0,1,2,4" data-pembahasan="Informasi penting pesanan meliputi jenis menu, jumlah pesanan, nomor kamar pengantaran, dan permintaan khusus dari tamu.">
+          <div class="quiz__label">Studi Kasus Multi-Pilihan</div>
+          <p class="q">Pilihlah SEMUA informasi yang wajib dicatat petugas saat menerima pesanan (Pilih lebih dari satu!):</p>
+          <div class="opts">
+            <button class="opt" type="button">A. Menu atau nama makanan/minuman</button>
+            <button class="opt" type="button">B. Jumlah porsi pesanan</button>
+            <button class="opt" type="button">C. Nomor kamar tamu</button>
+            <button class="opt" type="button">D. Jadwal istirahat petugas laundry</button>
+            <button class="opt" type="button">E. Permintaan khusus (Special request/Dietary restriction)</button>
+            <button class="opt" type="button">F. Hobi atau preferensi olahraga tamu</button>
+          </div>
+          <div class="check">
+            <button class="btn btn--secondary btn-check" type="button">Periksa Jawaban</button>
+          </div>
+          <div class="feedback" hidden></div>
+          <div class="after" hidden><button class="btn btn--primary" type="button" data-goto="s7">Lanjut ▸</button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Adegan 7 — Konfirmasi Pesanan -->
+    <section class="scene" id="s7" data-narasi="Konfirmasi pesanan. Setelah mencatat, ulangi seluruh pesanan kepada tamu: menu, jumlah, nomor kamar, waktu pengantaran, dan informasi tambahan. Konfirmasi mencegah kesalahan pencatatan dan pesanan yang salah kirim.">
+      <div class="scene__head">
+        <div class="scene__icon">✅</div>
+        <div>
+          <span class="scene__badge">Adegan 07</span>
+          <h2 class="scene__title">Konfirmasi Pesanan (Repeat Order)</h2>
+        </div>
+      </div>
+
+      <div class="scene__body">
+        <div class="card step" data-step="1">
+          <p class="lead-text">Setelah selesai mencatat, ulangi kembali seluruh pesanan tamu (*Repeat Order*):</p>
+          <div class="highlight-box">
+            <p><strong>Rincian yang diulang:</strong> Menu + Jumlah + Nomor Kamar + Permintaan Khusus + Estimasi Waktu Pengantaran.</p>
+          </div>
+        </div>
+
+        <div class="quiz step" data-step="2" data-jawaban="1" data-pembahasan="Konfirmasi pesanan dilakukan untuk memastikan keakuratan catatan dan menghindari kesalahan produksi di dapur.">
+          <div class="quiz__label">Latihan Formatif 3</div>
+          <p class="q">Apa tujuan utama mengulangi (repeat order) pesanan kepada tamu?</p>
+          <div class="opts">
+            <button class="opt" type="button">A. Memperpanjang waktu percakapan.</button>
+            <button class="opt" type="button">B. Memastikan pesanan yang dicatat sudah sesuai keinginan tamu.</button>
+            <button class="opt" type="button">C. Menguji daya ingat tamu.</button>
+            <button class="opt" type="button">D. Menunggu waktu makanan siap.</button>
+          </div>
+          <div class="feedback" hidden></div>
+          <div class="after" hidden><button class="btn btn--primary" type="button" data-goto="s8">Lanjut ▸</button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Adegan 8 — Menutup Percakapan -->
+    <section class="scene" id="s8" data-narasi="Menutup percakapan. Ucapkan terima kasih, sampaikan perkiraan waktu pengantaran, dan tutup dengan sopan. Contoh: Terima kasih, pesanan Anda akan segera kami antar. Selamat menikmati.">
+      <div class="scene__head">
+        <div class="scene__icon">🗨️</div>
+        <div>
+          <span class="scene__badge">Adegan 08</span>
+          <h2 class="scene__title">Menutup Percakapan Telepon</h2>
+        </div>
+      </div>
+
+      <div class="scene__body scene__body--split">
+        <div class="card step" data-step="1">
+          <p>Ucapkan terima kasih, berikan estimasi waktu pengantaran (*delivery time*), dan akhiri percakapan dengan santun.</p>
+        </div>
+
+        <div class="sim-wrapper step" data-step="2">
+          <div class="sim-header">
+            <span class="sim-dot"></span>
+            <span>Contoh Kalimat Penutup</span>
+          </div>
+          <div class="chat-display">
+            <div class="bubble bubble--staff">
+              <div class="bubble__sender">Order Taker (Petugas)</div>
+              <div class="bubble__text">🛎️ "Terima kasih Mr. Andi. Pesanan Anda akan kami antarkan dalam waktu sekitar 20 menit. Selamat menikmati hari Anda!"</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scene__nav">
+        <button class="btn btn--primary" type="button" data-goto="s9">Simulasi Perubahan Pesanan ▸</button>
+      </div>
+    </section>
+
+    <!-- Adegan 9 — Menangani Permintaan Tamu -->
+    <section class="scene" id="s9" data-narasi="Menangani permintaan tamu. Skenario: tamu mengubah jumlah pesanan dari dua menjadi tiga porsi dan menambahkan permintaan tanpa gula, padahal pesanan sudah dikonfirmasi. Tindakan yang tepat: dengarkan dengan tenang, konfirmasi ulang perubahan, catat, lalu teruskan ke bagian terkait, kitchen atau FSO, sesuai SOP.">
+      <div class="scene__head">
+        <div class="scene__icon">🙋</div>
+        <div>
+          <span class="scene__badge">Adegan 09</span>
+          <h2 class="scene__title">Menangani Perubahan Pesanan</h2>
+        </div>
+      </div>
+
+      <div class="scene__body scene__body--split">
+        <div class="card step" data-step="1">
+          <div class="scenario-badge">Skenario Lapangan</div>
+          <p>Tamu menelepon kembali secara mendadak untuk menambah porsi dari 2 menjadi 3 porsi dan meminta teh tanpa gula, padahal pesanan awal sudah dikonfirmasi.</p>
+        </div>
+
+        <div class="sim-wrapper step" data-step="2">
+          <div class="chat-display">
+            <div class="bubble bubble--guest step" data-step="2">
+              <div class="bubble__sender">Tamu Kamar 305</div>
+              <div class="bubble__text">👤 "Maaf Andi, pesanan saya tadi 2 porsi tolong diubah jadi 3 porsi ya. Dan untuk tehnya, tolong TANPA GULA."</div>
+            </div>
+            
+            <div class="bubble bubble--staff step" data-step="3">
+              <div class="bubble__sender">Order Taker (Petugas)</div>
+              <div class="bubble__text">🛎️ "Baik Bapak, pesanan telah diperbarui menjadi 3 porsi dan teh tanpa gula. Saya perbarui tiketnya ke bagian Dapur sekarang."</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="quiz step" data-step="4" data-jawaban="1" data-pembahasan="Perubahan pesanan dari tamu wajib didengarkan tenang, dicatat, dikonfirmasi ulang, dan segera diperbarui ke Dapur/Kitchen.">
+          <div class="quiz__label">Latihan Formatif 4</div>
+          <p class="q">Apa tindakan paling tepat saat tamu mengubah pesanan setelah sempat dikonfirmasi?</p>
+          <div class="opts">
+            <button class="opt" type="button">A. Mengabaikan perubahan karena pesanan awal sudah dicetak.</button>
+            <button class="opt" type="button">B. Mendengarkan dengan tenang, mencatat revisi, konfirmasi ulang, dan update ke Kitchen.</button>
+            <button class="opt" type="button">C. Menolak perubahan pesanan tamu.</button>
+            <button class="opt" type="button">D. Meminta tamu menelepon ulang nanti.</button>
+          </div>
+          <div class="feedback" hidden></div>
+          <div class="after" hidden><button class="btn btn--primary" type="button" data-goto="s10">Lanjut ▸</button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Adegan 10 — Workflow & POS Billing -->
+    <section class="scene" id="s10" data-narasi="Tindak lanjut pesanan. Alurnya: satu, pencatatan pesanan lengkap. Dua, konfirmasi kepada tamu. Tiga, penerusan ke kitchen atau F S O dan pembuatan bill. Setiap pesanan diteruskan dengan informasi lengkap dan akurat agar tidak terjadi selisih.">
+      <div class="scene__head">
+        <div class="scene__icon">🔄</div>
+        <div>
+          <span class="scene__badge">Adegan 10</span>
+          <h2 class="scene__title">Tindak Lanjut &amp; POS Billing</h2>
+        </div>
+      </div>
+
+      <div class="scene__body">
+        <!-- Modern Interactive Flow Diagram -->
+        <div class="workflow-container">
+          <div class="wf-card step" data-step="1">
+            <div class="wf-card__step">1</div>
+            <div class="wf-card__body">
+              <h4>Taking Order</h4>
+              <p>Pencatatan data &amp; pesanan lengkap</p>
+            </div>
+          </div>
+
+          <div class="wf-arrow step" data-step="2">➔</div>
+
+          <div class="wf-card step" data-step="2">
+            <div class="wf-card__step">2</div>
+            <div class="wf-card__body">
+              <h4>Repeat Order</h4>
+              <p>Konfirmasi detail ke tamu</p>
+            </div>
+          </div>
+
+          <div class="wf-arrow step" data-step="3">➔</div>
+
+          <div class="wf-card step" data-step="3">
+            <div class="wf-card__step">3</div>
+            <div class="wf-card__body">
+              <h4>Kitchen &amp; POS Bill</h4>
+              <p>Teruskan ke dapur &amp; cetak bill</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Simulated Interactive POS Receipt -->
+        <div class="pos-simulator step" data-step="4">
+          <div class="pos-header">
+            <span>🧾 POS BILLING SYSTEM</span>
+            <span class="badge-live">Live Preview</span>
+          </div>
+          <div class="pos-body">
+            <div class="pos-line"><span>Tamu:</span> <strong>Mr. Alexander</strong></div>
+            <div class="pos-line"><span>Kamar:</span> <strong>Kamar 305</strong></div>
+            <hr class="pos-divider">
+            <div class="pos-line"><span>3x Nasi Goreng Spesial</span> <span>Rp 195.000</span></div>
+            <div class="pos-line"><span>1x Es Teh Manis (No Sugar)</span> <span>Rp 25.000</span></div>
+            <div class="pos-line"><span>Service Charge (10%)</span> <span>Rp 22.000</span></div>
+            <div class="pos-line"><span>Tax (11%)</span> <span>Rp 24.200</span></div>
+            <hr class="pos-divider">
+            <div class="pos-line pos-total"><span>TOTAL:</span> <strong>Rp 266.200</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scene__nav">
+        <button class="btn btn--primary" type="button" data-goto="s11">Mulai Uji Pemahaman ▸</button>
+      </div>
+    </section>
+
+    <!-- Adegan 11 — Evaluasi Interaktif -->
+    <section class="scene" id="s11" data-narasi="Evaluasi interaktif. Lima soal pilihan ganda. Kerjakan dengan teliti. Skor akan dihitung otomatis.">
+      <div class="scene__head">
+        <div class="scene__icon">🏆</div>
+        <div>
+          <span class="scene__badge">Adegan 11</span>
+          <h2 class="scene__title">Evaluasi Interaktif</h2>
+        </div>
+      </div>
+
+      <div class="scene__body">
+        <div class="eval-header-card">
+          <span id="evalStatus" class="eval-status">Soal 1/5 · Skor Saat Ini: 0</span>
+        </div>
+
+        <div class="quiz" data-jawaban="1" data-pembahasan="Salam pembuka dan perkenalan diri adalah etika pertama sesuai standar dalam menerima telepon.">
+          <p class="q">1. Apa yang harus dilakukan pertama kali saat menerima telepon pesanan room service?</p>
+          <div class="opts">
+            <button class="opt" type="button">A. Langsung menanyakan pesanan.</button>
+            <button class="opt" type="button">B. Mengucapkan salam pembuka dan memperkenalkan diri beserta bagiannya.</button>
+            <button class="opt" type="button">C. Menutup telepon jika suara kurang jelas.</button>
+            <button class="opt" type="button">D. Menanyakan nama tamu lebih dulu.</button>
+          </div>
+          <div class="feedback" hidden></div>
+          <div class="after" hidden></div>
+        </div>
+
+        <div class="quiz" data-jawaban="1" data-pembahasan="Identitas tamu dan nomor kamar sangat penting untuk mencegah salah kirim makanan." hidden>
+          <p class="q">2. Informasi apa yang wajib dicatat sebelum mencatat pesanan makanan?</p>
+          <div class="opts">
+            <button class="opt" type="button">A. Hanya nomor kamar.</button>
+            <button class="opt" type="button">B. Nama tamu dan nomor kamar.</button>
+            <button class="opt" type="button">C. Nama tamu saja.</button>
+            <button class="opt" type="button">D. Tidak perlu mencatat.</button>
+          </div>
+          <div class="feedback" hidden></div>
+          <div class="after" hidden></div>
+        </div>
+
+        <div class="quiz" data-jawaban="1" data-pembahasan="Konfirmasi mencegah kesalahan pencatatan pesanan." hidden>
+          <p class="q">3. Apa tujuan konfirmasi pesanan (repeat order)?</p>
+          <div class="opts">
+            <button class="opt" type="button">A. Memperpanjang percakapan.</button>
+            <button class="opt" type="button">B. Memastikan pesanan yang dicatat sudah sesuai keinginan tamu.</button>
+            <button class="opt" type="button">C. Menguji ingatan tamu.</button>
+            <button class="opt" type="button">D. Menunggu pesanan siap.</button>
+          </div>
+          <div class="feedback" hidden></div>
+          <div class="after" hidden></div>
+        </div>
+
+        <div class="quiz" data-jawaban="1" data-pembahasan="Perubahan pesanan wajib dicatat, dikonfirmasi ulang, dan diteruskan ke dapur sesuai SOP." hidden>
+          <p class="q">4. Jika tamu mengubah pesanan setelah dikonfirmasi, tindakan petugas adalah…</p>
+          <div class="opts">
+            <button class="opt" type="button">A. Mengabaikan perubahan.</button>
+            <button class="opt" type="button">B. Mencatat perubahan, mengonfirmasi ulang, dan meneruskan ke bagian terkait.</button>
+            <button class="opt" type="button">C. Menolak perubahan.</button>
+            <button class="opt" type="button">D. Meminta tamu menelepon ulang nanti.</button>
+          </div>
+          <div class="feedback" hidden></div>
+          <div class="after" hidden></div>
+        </div>
+
+        <div class="quiz" data-jawaban="0" data-pembahasan="Pesanan diteruskan ke dapur dan kasir dengan informasi lengkap untuk diproses." hidden>
+          <p class="q">5. Setelah pesanan dikonfirmasi, pesanan diteruskan…</p>
+          <div class="opts">
+            <button class="opt" type="button">A. Ke bagian terkait (kitchen/FSO) dengan informasi lengkap dan akurat.</button>
+            <button class="opt" type="button">B. Disimpan saja tanpa diteruskan.</button>
+            <button class="opt" type="button">C. Hanya jika tamu bertanya.</button>
+            <button class="opt" type="button">D. Tanpa perlu informasi lengkap.</button>
+          </div>
+          <div class="feedback" hidden></div>
+          <div class="after" hidden></div>
+        </div>
+
+        <div class="result" id="evalResult" hidden>
+          <div class="result__badge">🎉 Evaluasi Selesai!</div>
+          <div class="result__score" id="evalScore">0/5</div>
+          <p class="result__comment" id="evalComment"></p>
+          <div class="result__actions">
+            <button class="btn btn--secondary" type="button" id="evalReset">↻ Ulangi Evaluasi</button>
+            <button class="btn btn--primary" type="button" data-goto="s12">Lanjut ke Penutup ▸</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Adegan 12 — Penutup -->
+    <section class="scene" id="s12" data-narasi="Rangkuman. Satu, komunikasi sopan sejak salam pembuka. Dua, pencatatan teliti: nama, kamar, menu, jumlah, dan permintaan khusus. Tiga, konfirmasi sebelum meneruskan pesanan. Empat, tindak lanjut pesanan sesuai S O P hotel. Terima kasih, selamat belajar.">
+      <div class="scene__head">
+        <div class="scene__icon">📖</div>
+        <div>
+          <span class="scene__badge">Adegan 12</span>
+          <h2 class="scene__title">Penutup &amp; Rangkuman</h2>
+        </div>
+      </div>
+
+      <div class="scene__body">
+        <div class="summary-box step" data-step="1">
+          <h3>📌 Rangkuman Pembelajaran Room Service:</h3>
+          <ul class="summary-list">
+            <li>Komunikasi sopan &amp; ramah sejak salam pembuka.</li>
+            <li>Pencatatan teliti (nama, nomor kamar, menu, porsi, &amp; special request).</li>
+            <li>Konfirmasi (Repeat order) sebelum meneruskan pesanan.</li>
+            <li>Tindak lanjut pesanan ke Kitchen &amp; FSO secara cepat sesuai SOP.</li>
+          </ul>
+        </div>
+
+        <div class="thanks-card step" data-step="2">
+          <p class="thanks">Terima kasih telah mengikuti media pembelajaran ini. Selamat belajar! 🎓</p>
+          <p class="final-badge" id="finalBadge" hidden></p>
+        </div>
+
+        <div class="done-card" hidden>
+          <div class="done-card__icon">🎓</div>
+          <h3>Materi Pembelajaran Selesai</h3>
+          <p>Semoga ilmu ini bermanfaat untuk praktikum dan karir kamu!</p>
+          <p class="credit-text">Prodi PKK Pariwisata — Undiksha</p>
+        </div>
+      </div>
+
+      <div class="scene__nav">
+        <button class="btn btn--secondary" type="button" data-goto="restart">↻ Ulangi Materi</button>
+        <button class="btn btn--primary" type="button" id="doneBtn">✓ Selesai</button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    <p>Media Pembelajaran Interaktif • Prodi PKK Pariwisata Undiksha</p>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
