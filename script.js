@@ -16,7 +16,7 @@
 
   var current = 1;
   var soundOn = true;
-  var voice = null;
+  var voices = [];
   var evalScore = 0;
   var lastScore = null;
   var TOTAL = scenes.length;
@@ -24,10 +24,7 @@
   /* ---------- Speech Synthesis ---------- */
   function findVoice() {
     try {
-      var vs = speechSynthesis.getVoices();
-      voice = vs.filter(function (v) {
-        return (v.lang || '').toLowerCase().indexOf('id') === 0;
-      })[0] || null;
+      voices = speechSynthesis.getVoices();
     } catch (e) {}
   }
 
@@ -38,6 +35,23 @@
     }
   } catch (e) {}
 
+  function voiceFor(language) {
+    var exact = language.toLowerCase();
+    var prefix = exact.split('-')[0];
+    return voices.find(function(v){ return (v.lang || '').toLowerCase() === exact; }) ||
+      voices.find(function(v){ return (v.lang || '').toLowerCase().split('-')[0] === prefix; }) || null;
+  }
+
+  function applySpeechLanguage(utterance, language) {
+    utterance.lang = language;
+    var selectedVoice = voiceFor(language);
+    if (selectedVoice) utterance.voice = selectedVoice;
+  }
+
+  function sceneLanguage(scene) {
+    return scene.id === 's11' ? 'en-US' : 'id-ID';
+  }
+
   var speechGeneration = 0;
   function cancelSpeech() {
     speechGeneration++;
@@ -45,7 +59,8 @@
     document.querySelectorAll('.narrating').forEach(function(el){el.classList.remove('narrating');});
   }
 
-  function speak(text) {
+  function speak(text, language) {
+    language = language || 'id-ID';
     cancelSpeech();
     if (!soundOn || !text || !('speechSynthesis' in window)) return;
     var token = speechGeneration;
@@ -58,8 +73,7 @@
       }
       try {
         var u = new SpeechSynthesisUtterance(parts[i]);
-        u.lang = current === 11 ? 'en-US' : 'id-ID'; u.rate = .95;
-        if (voice && current !== 11) u.voice = voice;
+        applySpeechLanguage(u, language); u.rate = .95;
         var scene = scenes[current - 1];
         var targets = Array.prototype.slice.call(scene.querySelectorAll('.step:not([hidden])'));
         var highlight = targets[Math.min(i, targets.length - 1)];
@@ -84,7 +98,7 @@
     if (lab.finish) {
       cancelSpeech(); clearTimeout(lab.timer); lab.speech = false;
       if (!lab.paused) lab.timer = setTimeout(lab.finish, 1800);
-    } else if (soundOn) speak(scenes[current - 1].dataset.narasi);
+    } else if (soundOn) speak(scenes[current - 1].dataset.narasi, sceneLanguage(scenes[current - 1]));
     else cancelSpeech();
   });
 
@@ -139,7 +153,7 @@
     window.scrollTo(0, 0);
     document.querySelector('.progress').setAttribute('aria-valuenow', String(num));
     enterLab(num);
-    speak(el.dataset.narasi);
+    speak(el.dataset.narasi, sceneLanguage(el));
     var title = el.querySelector('h1,h2');
     if (title) { title.setAttribute('tabindex', '-1'); title.focus({preventScroll:true}); }
   }
@@ -189,7 +203,7 @@
       var goal = revealed.closest('.goal-card');
       if(goal)goal.classList.add('demonstrating');
       var text = revealed.querySelector('p');
-      if(text && !revealed.classList.contains('quiz')) { stopLab(); speak(text.textContent); }
+      if(text && !revealed.classList.contains('quiz')) { stopLab(); speak(text.textContent, text.closest('[lang]').lang === 'en' ? 'en-US' : 'id-ID'); }
     }
     if (scene.__revealed >= scene.__stepGroups.length) {
       var stepBtn = scene.querySelector('.step-btn');
@@ -385,8 +399,8 @@
   var lab = { timer: null, finish: null, paused: false, run: 0, speech: false };
   var simulations = {};
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var practiceOrder = { room: '305', items: [0, 0, 0], request: 'Biasa' };
-  var menu = [['Nasi goreng', 'meal'], ['Teh', 'tea'], ['Jus jeruk', 'juice']];
+  var practiceOrder = { room: '305', items: [0, 0, 0], request: 'No special requests' };
+  var menu = [['Fried rice', 'meal'], ['Tea', 'tea'], ['Orange juice', 'juice']];
 
   function staff(guest) {
     return '<svg class="person ' + (guest ? 'person--guest' : 'person--staff') + '" viewBox="0 0 140 160" aria-hidden="true"><ellipse cx="70" cy="150" rx="48" ry="7" fill="#d7dfed"/><path d="M45 139v-28h50v28" fill="#25375c"/><path d="M41 110V85q0-20 29-20t29 20v25" fill="' + (guest ? '#f5ad52' : '#7056ba') + '"/><path d="m60 69 10 14 10-14" fill="white"/><rect x="79" y="86" width="14" height="8" rx="2" fill="#ffdb83"/><g class="wave-arm"><path d="m97 88 18-18 4-25" fill="none" stroke="#db9a70" stroke-width="12" stroke-linecap="round"/><circle cx="119" cy="40" r="8" fill="#db9a70"/></g><path d="M43 86 30 110" stroke="#db9a70" stroke-width="12" stroke-linecap="round"/><rect x="60" y="53" width="20" height="20" rx="7" fill="#db9a70"/><circle cx="70" cy="36" r="27" fill="#efb58d"/><path d="M44 33Q38 2 70 5q30 0 27 30L84 19Q65 31 44 25" fill="#293553"/><circle cx="60" cy="37" r="2.5" fill="#293553"/><circle cx="80" cy="37" r="2.5" fill="#293553"/><path d="M60 48q10 12 20 0" fill="white" stroke="#a45b4d" stroke-width="2"/><path d="M51 142v7m38-7v7" stroke="#25375c" stroke-width="15" stroke-linecap="round"/></svg>';
@@ -411,12 +425,14 @@
   function panel(n, title, html) {
     var el = document.createElement('div');
     el.className = 'learning-lab'; el.dataset.labScene = n;
+    el.lang = n >= 4 && n <= 10 ? 'en' : 'id';
     el.innerHTML = '<div class="lab-heading"><span class="lab-kicker">LAB / ' + String(n).padStart(2, '0') + '</span><h3>' + title + '</h3></div>' + html;
     document.querySelector('#s' + n + ' .scene__body').prepend(el);
     return el;
   }
-  function controls() {
-    return '<div class="lab-controls">' + button('play', '▶ Putar demonstrasi') + button('pause', 'Ⅱ Jeda') + button('replay', '↻ Ulangi') + '</div>';
+  function controls(language) {
+    if (language === 'id') return '<div class="lab-controls">' + button('play', '▶ Putar demonstrasi') + button('pause', 'Ⅱ Jeda') + button('replay', '↻ Ulangi') + '</div>';
+    return '<div class="lab-controls">' + button('play', '▶ Play Demonstration') + button('pause', 'Ⅱ Pause') + button('replay', '↻ Replay') + '</div>';
   }
   function stopLab() {
     lab.run++; clearTimeout(lab.timer); lab.timer = null; lab.finish = null; lab.paused = false;
@@ -441,8 +457,8 @@
       }
       lab.finish = next;
       if (soundOn && 'speechSynthesis' in window) {
-        var u = new SpeechSynthesisUtterance(step.text); u.lang = 'id-ID'; u.rate = .95;
-        if (voice) u.voice = voice;
+        var u = new SpeechSynthesisUtterance(step.text);
+        applySpeechLanguage(u, p.lang === 'en' ? 'en-US' : 'id-ID'); u.rate = .95;
         u.onend = next; u.onerror = function () { if (token === lab.run) { lab.speech = false; if (!lab.paused) lab.timer = setTimeout(next, 1200); } };
         lab.speech = true;
         speechSynthesis.speak(u);
@@ -454,7 +470,7 @@
     p.querySelector('.lab-dialogue').textContent = text;
     p.dataset.speaker = who || 'staff';
   }
-  function stagePair() { return '<div class="lab-actors"><div class="actor staff-actor">' + staff(false) + '<span>Andi · Room Service</span></div><div class="call-object">' + object('phone') + '<div class="sound-waves" aria-hidden="true"><i></i><i></i><i></i></div></div><div class="actor guest-actor">' + staff(true) + '<span>Alexander · Kamar 305</span></div></div><p class="lab-dialogue" role="status">Pilih Putar untuk mengamati prosedur.</p>'; }
+  function stagePair() { return '<div class="lab-actors"><div class="actor staff-actor">' + staff(false) + '<span>Andi · Room Service</span></div><div class="call-object">' + object('phone') + '<div class="sound-waves" aria-hidden="true"><i></i><i></i><i></i></div></div><div class="actor guest-actor">' + staff(true) + '<span>Alexander · Room 305</span></div></div><p class="lab-dialogue" role="status">Select Play to watch the procedure.</p>'; }
 
   function initLabs() {
     var welcome = document.createElement('div'); welcome.className = 'welcome-staff';
@@ -473,44 +489,44 @@
     });
     buildWorkflow(3, true);
     buildTelephone();
-    var id = panel(5, 'Tanyakan → catat → verifikasi', stagePair() + '<div class="guest-form"><label>Nama tamu<input readonly aria-label="Nama tamu terverifikasi" value=""></label><label>Nomor kamar<input readonly aria-label="Nomor kamar terverifikasi" value=""></label><span class="verification" role="status"></span></div>' + controls());
+    var id = panel(5, 'Ask → Record → Verify', stagePair() + '<div class="guest-form"><label>Guest name<input readonly aria-label="Verified guest name" value=""></label><label>Room number<input readonly aria-label="Verified room number" value=""></label><span class="verification" role="status"></span></div>' + controls());
     simulations[5] = function () {
       var fields = id.querySelectorAll('input'); fields.forEach(function (f) { f.value = ''; f.classList.remove('field-entered'); }); id.querySelector('.verification').textContent = '';
       runSequence(id, [
-        {text:'Boleh saya tahu nama dan nomor kamar Anda?',draw:function(){dialogue(id,'Andi: Boleh saya tahu nama dan nomor kamar Anda?');}},
-        {text:'Nama saya Alexander, kamar 305.',draw:function(){dialogue(id,'Tamu: Alexander, kamar 305.','guest');fields[0].value='Alexander';fields[0].classList.add('field-entered');}},
-        {text:'Bapak Alexander, kamar 305. Apakah sudah benar?',draw:function(){fields[1].value='305';fields[1].classList.add('field-entered');dialogue(id,'Andi: Bapak Alexander, kamar 305. Apakah sudah benar?');}},
-        {text:'Benar. Identitas telah dikonfirmasi.',draw:function(){dialogue(id,'Tamu: Benar, terima kasih.','guest');id.querySelector('.verification').innerHTML=object('check')+'Data terverifikasi';}}
+        {text:'May I have your name and room number, please?',draw:function(){dialogue(id,'Andi: May I have your name and room number, please?');}},
+        {text:'My name is Alexander. I am in room 305.',draw:function(){dialogue(id,'Guest: My name is Alexander. I am in room 305.','guest');fields[0].value='Alexander';fields[0].classList.add('field-entered');}},
+        {text:'That is Mr Alexander in room 305. Is that correct?',draw:function(){fields[1].value='305';fields[1].classList.add('field-entered');dialogue(id,'Andi: That is Mr Alexander in room 305. Is that correct?');}},
+        {text:'That is correct. The guest details have been confirmed.',draw:function(){dialogue(id,'Guest: That is correct, thank you.','guest');id.querySelector('.verification').innerHTML=object('check')+'Guest details verified';}}
       ]);
     };
-    id.__reset=function(){id.querySelectorAll('input').forEach(function(f){f.value='';f.classList.remove('field-entered');});id.querySelector('.verification').textContent='';dialogue(id,'Pilih Putar untuk mengamati prosedur.');};
+    id.__reset=function(){id.querySelectorAll('input').forEach(function(f){f.value='';f.classList.remove('field-entered');});id.querySelector('.verification').textContent='';dialogue(id,'Select Play to watch the procedure.');};
     buildOrder();
-    var repeat = panel(7, 'Baca kembali setiap rincian', stagePair() + '<ul class="readback-list"></ul>' + controls());
-    repeat.__reset=function(){repeat.querySelector('ul').replaceChildren();dialogue(repeat,'Pilih Putar untuk mengamati prosedur.');};
+    var repeat = panel(7, 'Read Back Every Detail', stagePair() + '<ul class="readback-list"></ul>' + controls());
+    repeat.__reset=function(){repeat.querySelector('ul').replaceChildren();dialogue(repeat,'Select Play to watch the procedure.');};
     simulations[7] = function () {
       var items = practiceOrder.items.some(Boolean) ? practiceOrder.items : [2,1,0];
       var lines = menu.map(function(m,i){return items[i] ? items[i]+' × '+m[0] : null;}).filter(Boolean);
-      lines.push('Kamar '+practiceOrder.room, 'Permintaan: '+practiceOrder.request, 'Estimasi pengantaran: 20 menit');
+      lines.push('Room '+practiceOrder.room, 'Special request: '+practiceOrder.request, 'Estimated delivery time: 20 minutes');
       var list = repeat.querySelector('ul'); list.replaceChildren();
       lines.forEach(function(t){var li=document.createElement('li');li.textContent=t;list.appendChild(li);});
       var steps = lines.map(function(t,i){return {text:t,draw:function(){list.querySelectorAll('li').forEach(function(li,j){li.classList.toggle('reading',j===i);li.classList.toggle('checked',j<i);});dialogue(repeat,'Andi: '+t);}};});
-      steps.push({text:'Benar, pesanan saya sudah sesuai.',draw:function(){list.querySelectorAll('li').forEach(function(li){li.classList.remove('reading');li.classList.add('checked');});dialogue(repeat,'✓ Tamu: Benar, pesanan saya sudah sesuai.','guest');}});
+      steps.push({text:'Yes, that is my order. Thank you.',draw:function(){list.querySelectorAll('li').forEach(function(li){li.classList.remove('reading');li.classList.add('checked');});dialogue(repeat,'✓ Guest: Yes, that is my order. Thank you.','guest');}});
       runSequence(repeat,steps);
     };
-    var closing = panel(8, 'Sampaikan waktu, lalu tutup dengan sopan', stagePair() + '<div class="delivery-clock">' + object('clock') + '<strong>± 20 menit</strong><span>Contoh estimasi pengantaran</span></div>' + controls());
-    closing.__reset=function(){closing.classList.remove('call-ended');dialogue(closing,'Pilih Putar untuk mengamati prosedur.');};
+    var closing = panel(8, 'Give the Delivery Time, Then Close Politely', stagePair() + '<div class="delivery-clock">' + object('clock') + '<strong>± 20 minutes</strong><span>Example delivery estimate</span></div>' + controls());
+    closing.__reset=function(){closing.classList.remove('call-ended');dialogue(closing,'Select Play to watch the procedure.');};
     simulations[8] = function () {
       closing.classList.remove('call-ended');
       runSequence(closing,[
-        {text:'Terima kasih Bapak Alexander. Pesanan Anda akan kami antar dalam sekitar dua puluh menit.',draw:function(){dialogue(closing,'Andi: Terima kasih. Pesanan Anda akan tiba sekitar 20 menit lagi.');}},
-        {text:'Baik, terima kasih informasinya.',draw:function(){dialogue(closing,'Tamu: Baik, terima kasih informasinya.','guest');}},
-        {text:'Selamat menikmati. Tunggu tamu menutup telepon, lalu letakkan gagang dengan perlahan.',draw:function(){dialogue(closing,'Tamu selesai berbicara. Andi meletakkan gagang dengan perlahan.');closing.classList.add('call-ended');}}
+        {text:'Thank you, Mr Alexander. Your order will be delivered in approximately twenty minutes.',draw:function(){dialogue(closing,'Andi: Thank you. Your order will arrive in approximately 20 minutes.');}},
+        {text:'All right, thank you for letting me know.',draw:function(){dialogue(closing,'Guest: All right, thank you for letting me know.','guest');}},
+        {text:'Have a pleasant afternoon. Let the guest end the call, then gently replace the receiver.',draw:function(){dialogue(closing,'The guest has ended the call. Andi gently replaces the receiver.');closing.classList.add('call-ended');}}
       ]);
     };
     buildChanges(); buildWorkflow(10, false);
     var evalHeader = document.querySelector('.eval-header-card');
     evalHeader.insertAdjacentHTML('beforeend','<div class="evaluation-track" role="progressbar" aria-label="Evaluation progress" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0"><div></div></div>');
-    var complete = panel(12, 'Congratulations!', '<div class="completion-stage">'+staff(false)+'<div><strong class="completion-greeting"></strong><p>Kamu telah mempelajari proses layanan dari telepon hingga pengantaran.</p><p class="completion-score" lang="en"></p></div><div class="confetti" aria-hidden="true">'+Array.from({length:18},function(_,i){return '<i style="--i:'+i+'"></i>';}).join('')+'</div></div>'+button('celebrate','↻ Rayakan lagi'));
+    var complete = panel(12, 'Selamat!', '<div class="completion-stage">'+staff(false)+'<div><strong class="completion-greeting"></strong><p>Kamu telah mempelajari proses layanan dari telepon hingga pengantaran.</p><p class="completion-score" lang="en"></p></div><div class="confetti" aria-hidden="true">'+Array.from({length:18},function(_,i){return '<i style="--i:'+i+'"></i>';}).join('')+'</div></div>'+button('celebrate','↻ Rayakan lagi'));
     complete.querySelector('[data-lab="celebrate"]').addEventListener('click',celebrate);
     document.querySelectorAll('.scene[data-narasi]').forEach(function(scene){
       if(scene.id==='s11')return;
@@ -521,63 +537,63 @@
   }
 
   function buildTelephone() {
-    var p = panel(4,'Angkat sebelum dering ketiga',stagePair()+'<p class="ring-counter" role="status">Dering <strong>0</strong>/3</p><div class="lab-controls">'+button('answer','☎ Angkat telepon')+button('play','▶ Putar percakapan')+button('pause','Ⅱ Jeda percakapan')+button('replay','↻ Ulangi percakapan')+'</div>');
+    var p = panel(4,'Answer Before the Third Ring',stagePair()+'<p class="ring-counter" role="status">Ring <strong>0</strong>/3</p><div class="lab-controls">'+button('answer','☎ Answer the Phone')+button('play','▶ Play Conversation')+button('pause','Ⅱ Pause Conversation')+button('replay','↻ Replay Conversation')+'</div>');
     p.__answered=false;
     function ringing(){
       stopLab();p.__answered=false;p.__rings=1;p.classList.add('is-ringing');p.querySelector('.ring-counter strong').textContent='1';
-      dialogue(p,'Telepon berdering. Angkat sebelum dering ketiga.');
+      dialogue(p,'The telephone is ringing. Answer Before the Third Ring.');
       var token=lab.run;
       function ring(){if(token!==lab.run||p.__answered)return;p.__rings++;p.querySelector('.ring-counter strong').textContent=p.__rings;
-        if(p.__rings===3){p.classList.remove('is-ringing');dialogue(p,'Dering ketiga tercapai. Ulangi dan angkat lebih cepat.');return;}
+        if(p.__rings===3){p.classList.remove('is-ringing');dialogue(p,'The third ring has sounded. Replay and try to answer sooner.');return;}
         lab.timer=setTimeout(ring,2200);
       }
       lab.timer=setTimeout(ring,2200);
     }
     p.__ring=ringing;
     simulations[4]=function(){
-      if(!p.__answered){dialogue(p,'Angkat telepon terlebih dahulu. Gunakan Ulangi untuk memulai dering baru.');return;}
+      if(!p.__answered){dialogue(p,'Answer the phone first. Select Replay to start a new call.');return;}
       runSequence(p,[
-        {text:'Selamat siang, Room Service dengan Andi. Ada yang bisa saya bantu?',draw:function(){dialogue(p,'Andi: Selamat siang, Room Service dengan Andi. Ada yang bisa saya bantu?');}},
-        {text:'Selamat siang. Saya ingin memesan makan siang untuk kamar 305.',draw:function(){dialogue(p,'Tamu: Selamat siang. Saya ingin memesan makan siang untuk kamar 305.','guest');}},
-        {text:'Dengan senang hati. Boleh saya konfirmasi nama Anda terlebih dahulu?',draw:function(){dialogue(p,'Andi: Dengan senang hati. Boleh saya konfirmasi nama Anda terlebih dahulu?');}}
+        {text:'Good afternoon, Room Service. This is Andi speaking. How may I assist you?',draw:function(){dialogue(p,'Andi: Good afternoon, Room Service. This is Andi speaking. How may I assist you?');}},
+        {text:'Good afternoon. I would like to order lunch for room 305, please.',draw:function(){dialogue(p,'Guest: Good afternoon. I would like to order lunch for room 305, please.','guest');}},
+        {text:'Certainly. May I confirm your name first, please?',draw:function(){dialogue(p,'Andi: Certainly. May I confirm your name first, please?');}}
       ]);
     };
     p.querySelector('[data-lab="answer"]').addEventListener('click',function(){
       if(p.__answered)return;
-      if(p.__rings>=3){dialogue(p,'Batas dering tercapai. Pilih Ulangi percakapan untuk mencoba lagi.');return;}
+      if(p.__rings>=3){dialogue(p,'The ring limit has been reached. Select Replay Conversation to try again.');return;}
       clearTimeout(lab.timer);p.__answered=true;p.classList.remove('is-ringing');
-      p.querySelector('.ring-counter').firstChild.textContent='✓ Diangkat pada dering ';
+      p.querySelector('.ring-counter').firstChild.textContent='✓ Answered on ring ';
       simulations[4]();
     });
   }
 
   function buildOrder() {
-    var p=panel(6,'Praktik mencatat pesanan','<div class="order-desk"><div><p class="lab-kicker">MENU KAMAR</p><div class="illustrated-menu">'+menu.map(function(m,i){return button('add',object(m[1])+'<span>'+m[0]+'</span><small>+ Tambahkan</small>','data-item="'+i+'"');}).join('')+'</div></div><form class="order-sheet"><h4>Tiket pesanan</h4><label>Nomor kamar<input id="orderRoom" inputmode="numeric" pattern="[0-9]{1,4}" maxlength="4" value="305" required></label><div class="order-lines"></div><label>Permintaan khusus<select id="orderRequest"><option>Biasa</option><option>Tanpa gula</option><option>Tanpa es</option><option>Tanpa gula dan tanpa es</option></select></label><button class="btn btn--primary" type="submit">✓ Periksa ringkasan</button><p class="order-summary" role="status"></p></form></div><span class="flying-item" aria-hidden="true">'+object('form')+'</span>');
+    var p=panel(6,'Practice Taking an Order','<div class="order-desk"><div><p class="lab-kicker">IN-ROOM DINING MENU</p><div class="illustrated-menu">'+menu.map(function(m,i){return button('add',object(m[1])+'<span>'+m[0]+'</span><small>+ Add Item</small>','data-item="'+i+'"');}).join('')+'</div></div><form class="order-sheet"><h4>Order ticket</h4><label>Room number<input id="orderRoom" inputmode="numeric" pattern="[0-9]{1,4}" maxlength="4" value="305" required></label><div class="order-lines"></div><label>Special requests<select id="orderRequest"><option>No special requests</option><option>No sugar</option><option>No ice</option><option>No sugar and no ice</option></select></label><button class="btn btn--primary" type="submit">✓ Check Summary</button><p class="order-summary" role="status"></p></form></div><span class="flying-item" aria-hidden="true">'+object('form')+'</span>');
     function render(){
       var target=p.querySelector('.order-lines');target.replaceChildren();
-      menu.forEach(function(m,i){if(!practiceOrder.items[i])return;var row=document.createElement('label');row.className='order-row';row.textContent=m[0];var input=document.createElement('input');input.type='number';input.required=true;input.min=0;input.max=20;input.value=practiceOrder.items[i];input.setAttribute('aria-label','Jumlah '+m[0]);input.addEventListener('input',function(){var n=Number(input.value);if(!Number.isInteger(n)||n<0||n>20){input.setCustomValidity('Masukkan jumlah 0 sampai 20.');return;}input.setCustomValidity('');practiceOrder.items[i]=n;p.querySelector('.order-summary').textContent='Pesanan berubah. Periksa ringkasan kembali.';});row.append(input);target.append(row);});
-      if(!practiceOrder.items.some(Boolean))target.textContent='Pilih makanan atau minuman dari menu.';
+      menu.forEach(function(m,i){if(!practiceOrder.items[i])return;var row=document.createElement('label');row.className='order-row';row.textContent=m[0];var input=document.createElement('input');input.type='number';input.required=true;input.min=0;input.max=20;input.value=practiceOrder.items[i];input.setAttribute('aria-label','Quantity '+m[0]);input.addEventListener('input',function(){var n=Number(input.value);if(!Number.isInteger(n)||n<0||n>20){input.setCustomValidity('Enter a quantity from 0 to 20.');return;}input.setCustomValidity('');practiceOrder.items[i]=n;p.querySelector('.order-summary').textContent='The order has changed. Please check the summary again.';});row.append(input);target.append(row);});
+      if(!practiceOrder.items.some(Boolean))target.textContent='Select food or drinks from the menu.';
     }
-    p.querySelectorAll('[data-lab="add"]').forEach(function(b){b.addEventListener('click',function(){var i=Number(b.dataset.item);practiceOrder.items[i]=Math.min(20,practiceOrder.items[i]+1);render();p.querySelector('.order-summary').textContent='Tercatat: '+menu[i][0];p.classList.remove('item-moving');void p.offsetWidth;p.classList.add('item-moving');});});
-    p.querySelector('form').addEventListener('submit',function(e){e.preventDefault();if(!practiceOrder.items.some(Boolean)){p.querySelector('.order-summary').textContent='Tambahkan minimal satu item terlebih dahulu.';return;}practiceOrder.room=p.querySelector('#orderRoom').value;practiceOrder.request=p.querySelector('#orderRequest').value;p.querySelector('.order-summary').textContent='✓ Kamar '+practiceOrder.room+' · '+menu.map(function(m,i){return practiceOrder.items[i]?practiceOrder.items[i]+' × '+m[0]:'';}).filter(Boolean).join(', ')+' · '+practiceOrder.request+'. Siap dibaca kembali kepada tamu.';});
-    p.querySelectorAll('input,select').forEach(function(el){el.addEventListener('input',function(){p.querySelector('.order-summary').textContent='Pesanan berubah. Periksa ringkasan kembali.';});});
-    p.__reset=function(){p.querySelector('form').reset();practiceOrder={room:'305',items:[0,0,0],request:'Biasa'};render();p.querySelector('.order-summary').textContent='';};render();
+    p.querySelectorAll('[data-lab="add"]').forEach(function(b){b.addEventListener('click',function(){var i=Number(b.dataset.item);practiceOrder.items[i]=Math.min(20,practiceOrder.items[i]+1);render();p.querySelector('.order-summary').textContent='Recorded: '+menu[i][0];p.classList.remove('item-moving');void p.offsetWidth;p.classList.add('item-moving');});});
+    p.querySelector('form').addEventListener('submit',function(e){e.preventDefault();if(!practiceOrder.items.some(Boolean)){p.querySelector('.order-summary').textContent='Please add at least one item first.';return;}practiceOrder.room=p.querySelector('#orderRoom').value;practiceOrder.request=p.querySelector('#orderRequest').value;p.querySelector('.order-summary').textContent='✓ Room '+practiceOrder.room+' · '+menu.map(function(m,i){return practiceOrder.items[i]?practiceOrder.items[i]+' × '+m[0]:'';}).filter(Boolean).join(', ')+' · '+practiceOrder.request+'. Ready to read back to the guest.';});
+    p.querySelectorAll('input,select').forEach(function(el){el.addEventListener('input',function(){p.querySelector('.order-summary').textContent='The order has changed. Please check the summary again.';});});
+    p.__reset=function(){p.querySelector('form').reset();practiceOrder={room:'305',items:[0,0,0],request:'No special requests'};render();p.querySelector('.order-summary').textContent='';};render();
   }
 
   function buildChanges(){
-    var p=panel(9,'Revisi pesanan tanpa kehilangan rincian','<div class="change-comparison"><div class="before-order"><span class="lab-kicker">SEBELUM · KAMAR 305</span>'+object('meal')+'<p><strong>2</strong> porsi nasi goreng</p><p>1 teh <span>dengan gula</span></p></div><div class="after-order"><span class="lab-kicker">SETELAH · KAMAR 305</span>'+object('tea')+'<p><strong class="new-quantity">2</strong> porsi nasi goreng</p><p>1 teh <span class="sugar-request">dengan gula</span><span class="sugar-cube" aria-hidden="true">◻</span></p></div></div><p class="lab-dialogue" role="status">Tamu meminta 3 porsi dan teh tanpa gula. Terapkan perubahan satu per satu.</p><div class="lab-controls">'+button('quantity','1. Ubah menjadi 3 porsi')+button('sugar','2. Hapus gula')+button('confirm-change','3. Konfirmasi & kirim')+button('reset-change','↻ Ulangi')+'</div><div class="kitchen-dispatch"><span class="dispatch-ticket">'+object('form')+'</span>'+object('kitchen')+'<span class="dispatch-status" role="status"></span></div>');
+    var p=panel(9,'Revise the Order Without Missing Any Details','<div class="change-comparison"><div class="before-order"><span class="lab-kicker">BEFORE · ROOM 305</span>'+object('meal')+'<p><strong>2</strong> portions of fried rice</p><p>1 tea <span>with sugar</span></p></div><div class="after-order"><span class="lab-kicker">AFTER · ROOM 305</span>'+object('tea')+'<p><strong class="new-quantity">2</strong> portions of fried rice</p><p>1 tea <span class="sugar-request">with sugar</span><span class="sugar-cube" aria-hidden="true">◻</span></p></div></div><p class="lab-dialogue" role="status">The guest requests 3 portions and tea without sugar. Apply each change in turn.</p><div class="lab-controls">'+button('quantity','1. Change to 3 Portions')+button('sugar','2. Remove Sugar')+button('confirm-change','3. Confirm & Send')+button('reset-change','↻ Replay')+'</div><div class="kitchen-dispatch"><span class="dispatch-ticket">'+object('form')+'</span>'+object('kitchen')+'<span class="dispatch-status" role="status"></span></div>');
     var quantity=false,sugar=false,sent=false;
-    p.__reset=function(){quantity=sugar=sent=false;p.classList.remove('quantity-changed','sugar-removed','sent');p.querySelector('.new-quantity').textContent='2';p.querySelector('.sugar-request').textContent='dengan gula';p.querySelector('.dispatch-status').textContent='';dialogue(p,'Tamu meminta 3 porsi dan teh tanpa gula. Terapkan perubahan satu per satu.');p.querySelectorAll('button').forEach(function(b){b.disabled=false;});};
-    p.querySelector('[data-lab="quantity"]').addEventListener('click',function(){quantity=true;p.classList.add('quantity-changed');p.querySelector('.new-quantity').textContent='3';dialogue(p,'Jumlah diperbarui: 2 → 3 porsi.');this.disabled=true;});
-    p.querySelector('[data-lab="sugar"]').addEventListener('click',function(){sugar=true;p.classList.add('sugar-removed');p.querySelector('.sugar-request').textContent='tanpa gula';dialogue(p,'Permintaan khusus diperbarui: teh tanpa gula.');this.disabled=true;});
-    p.querySelector('[data-lab="confirm-change"]').addEventListener('click',function(){if(!quantity||!sugar){dialogue(p,'Terapkan kedua perubahan terlebih dahulu.');return;}if(sent)return;sent=true;this.disabled=true;runSequence(p,[{text:'Bapak Alexander, pesanan menjadi tiga porsi dan satu teh tanpa gula. Apakah benar?',draw:function(){dialogue(p,'Andi: 3 porsi nasi goreng dan 1 teh tanpa gula, kamar 305. Apakah benar?');}},{text:'Benar, terima kasih.',draw:function(){dialogue(p,'✓ Tamu: Benar, terima kasih.','guest');}},{text:'Perubahan dikonfirmasi dan tiket revisi dikirim ke dapur.',draw:function(){p.classList.add('sent');p.querySelector('.dispatch-status').textContent='✓ Dapur menerima tiket revisi: 3 porsi · 1 teh tanpa gula · kamar 305.';}}]);});
+    p.__reset=function(){quantity=sugar=sent=false;p.classList.remove('quantity-changed','sugar-removed','sent');p.querySelector('.new-quantity').textContent='2';p.querySelector('.sugar-request').textContent='with sugar';p.querySelector('.dispatch-status').textContent='';dialogue(p,'The guest requests 3 portions and tea without sugar. Apply each change in turn.');p.querySelectorAll('button').forEach(function(b){b.disabled=false;});};
+    p.querySelector('[data-lab="quantity"]').addEventListener('click',function(){quantity=true;p.classList.add('quantity-changed');p.querySelector('.new-quantity').textContent='3';dialogue(p,'Quantity updated: 2 → 3 portions.');this.disabled=true;});
+    p.querySelector('[data-lab="sugar"]').addEventListener('click',function(){sugar=true;p.classList.add('sugar-removed');p.querySelector('.sugar-request').textContent='without sugar';dialogue(p,'Special request updated: tea without sugar.');this.disabled=true;});
+    p.querySelector('[data-lab="confirm-change"]').addEventListener('click',function(){if(!quantity||!sugar){dialogue(p,'Apply both changes first.');return;}if(sent)return;sent=true;this.disabled=true;runSequence(p,[{text:'Certainly. That is three portions and one cup of tea without sugar for room 305. Is that correct?',draw:function(){dialogue(p,'Andi: Certainly. That is three portions and one cup of tea without sugar for room 305. Is that correct?');}},{text:'That is correct, thank you.',draw:function(){dialogue(p,'✓ Guest: That is correct, thank you.','guest');}},{text:'Thank you. I will send the updated order to the kitchen now.',draw:function(){dialogue(p,'Andi: Thank you. I will send the updated order to the kitchen now.');p.classList.add('sent');p.querySelector('.dispatch-status').textContent='✓ The kitchen received the revised ticket: 3 portions · 1 tea without sugar · room 305.';}}]);});
     p.querySelector('[data-lab="reset-change"]').addEventListener('click',function(){stopLab();p.__reset();});
   }
 
   function buildWorkflow(n,mini){
-    var labels=mini?['Tamu bersantai','Tamu menelepon','Petugas mencatat','Dapur memasak','Waiter mengantar','Tamu menerima']:['Tamu','Order Taker','Kitchen','Delivery Staff','Tamu menerima'];
+    var labels=mini?['Tamu bersantai','Tamu menelepon','Petugas mencatat','Dapur memasak','Waiter mengantar','Tamu menerima']:['Guest','Order Taker','Kitchen','Delivery Staff','Guest receives the meal'];
     var kinds=mini?['guest','phone','staff','kitchen','trolley','meal']:['guest','staff','kitchen','trolley','meal'];
-    var texts=mini?['Tamu bersantai di kamar hotel dan ingin menikmati makanan tanpa keluar kamar.','Tamu menghubungi room service melalui telepon.','Petugas menerima telepon, mencatat identitas dan pesanan, lalu mengonfirmasi.','Dapur menerima tiket dan menyiapkan hidangan sesuai permintaan.','Waiter memeriksa pesanan dan mendorong troli menuju kamar tamu.','Tamu menerima hidangan yang sesuai dengan pesanan.']:['Tamu menyampaikan nama, kamar, menu, jumlah, dan permintaan khusus.','Petugas mencatat, mengulangi pesanan, membuat bill, dan mengirim tiket ke dapur.','Staf dapur memasak sesuai tiket dan memeriksa permintaan khusus.','Waiter memeriksa tiket, menata troli, lalu mengantar ke kamar yang benar.','Tamu menerima hidangan. Petugas memastikan pesanan lengkap dan benar.'];
+    var texts=mini?['Tamu bersantai di kamar hotel dan ingin menikmati makanan tanpa keluar kamar.','Tamu menghubungi room service melalui telepon.','Petugas menerima telepon, mencatat identitas dan pesanan, lalu mengonfirmasi.','Dapur menerima tiket dan menyiapkan hidangan sesuai permintaan.','Waiter memeriksa pesanan dan mendorong troli menuju kamar tamu.','Tamu menerima hidangan yang sesuai dengan pesanan.']:['The guest provides their name, room number, menu choices, quantities, and special requests.','The order taker records and reads back the order, prepares the bill, and sends the ticket to the kitchen.','Kitchen staff prepare the meal according to the ticket and check all special requests.','The waiter checks the ticket, sets up the trolley, and delivers the meal to the correct room.','The guest receives the meal. Staff check that the order is complete and correct.'];
     function vignette(kind) {
       var room = '<svg class="room-backdrop" viewBox="0 0 160 120" aria-hidden="true"><rect x="1" y="1" width="158" height="118" rx="10" fill="#e6f2f6"/><path d="M0 96h160" stroke="#c1d4dd" stroke-width="2"/><rect x="12" y="10" width="48" height="42" rx="4" fill="#a4d5ed" stroke="white" stroke-width="5"/><path d="M36 10v42M12 31h48" stroke="white" stroke-width="3"/><path d="M14 79q0-16 15-16h22q15 0 15 16v20H14z" fill="#c3acd9"/><rect x="21" y="84" width="39" height="12" rx="4" fill="#ab8cc9"/><rect x="117" y="19" width="29" height="70" rx="3" fill="#c8b69c"/><circle cx="138" cy="55" r="2" fill="#7056ba"/></svg>';
       if(kind==='guest') return '<div class="workflow-vignette room-vignette">'+room+staff(true)+'</div>';
@@ -587,8 +603,9 @@
       if(kind==='meal') return '<div class="workflow-vignette meal-vignette">'+room+staff(true)+object('meal')+'</div>';
       return '<div class="workflow-vignette room-vignette">'+room+staff(true)+object('phone')+'</div>';
     }
-    var p=panel(n,mini?'Satu pesanan, satu perjalanan pelayanan':'Ikuti tiket dari telepon hingga kamar','<div class="hotel-workflow '+(mini?'hotel-mini':'')+'">'+labels.map(function(t,i){return '<div class="flow-stop">'+button('stage',vignette(kinds[i])+'<span>'+t+'</span>','data-stage="'+i+'" aria-pressed="false"')+'<span class="travel-ticket" aria-hidden="true">'+object('form')+'</span></div>';}).join('')+'</div><p class="lab-dialogue" role="status">Klik setiap tahap atau putar seluruh alur.</p>'+controls());
-    p.__reset=function(){p.querySelectorAll('.flow-stop').forEach(function(el){el.classList.remove('current-stop','visited-stop');el.querySelector('button').setAttribute('aria-pressed','false');});dialogue(p,'Klik setiap tahap atau putar seluruh alur.');};
+    var hint = mini ? 'Klik setiap tahap atau putar seluruh alur.' : 'Select a stage or play the complete workflow.';
+    var p=panel(n,mini?'Satu pesanan, satu perjalanan pelayanan':'Follow the Ticket from the Call to the Room','<div class="hotel-workflow '+(mini?'hotel-mini':'')+'">'+labels.map(function(t,i){return '<div class="flow-stop">'+button('stage',vignette(kinds[i])+'<span>'+t+'</span>','data-stage="'+i+'" aria-pressed="false"')+'<span class="travel-ticket" aria-hidden="true">'+object('form')+'</span></div>';}).join('')+'</div><p class="lab-dialogue" role="status">'+hint+'</p>'+controls(mini ? 'id' : 'en'));
+    p.__reset=function(){p.querySelectorAll('.flow-stop').forEach(function(el){el.classList.remove('current-stop','visited-stop');el.querySelector('button').setAttribute('aria-pressed','false');});dialogue(p,hint);};
     function draw(i){p.querySelectorAll('.flow-stop').forEach(function(el,j){el.classList.toggle('current-stop',j===i);el.classList.toggle('visited-stop',j<i);el.querySelector('button').setAttribute('aria-pressed',String(j===i));});dialogue(p,texts[i]);}
     simulations[n]=function(){runSequence(p,texts.map(function(t,i){return {text:t,draw:function(){draw(i);}};}));};
     p.querySelectorAll('[data-stage]').forEach(function(b){b.addEventListener('click',function(){var i=Number(b.dataset.stage);runSequence(p,[{text:texts[i],draw:function(){draw(i);}}]);});});
@@ -598,7 +615,7 @@
     var p=document.querySelector('[data-lab-scene="12"]');
     p.querySelector('.completion-greeting').textContent='Selamat, '+(nameInput.value.trim()||'teman belajar')+'!';
     var score=p.querySelector('.completion-score');
-    score.textContent=lastScore===null?'Complete the Final Evaluation to see your score.':'Your Final Score: '+lastScore+'/'+evalQuizzes.length;
+    score.textContent=lastScore===null?'Selesaikan evaluasi akhir untuk melihat skor kamu.':'Your Final Score: '+lastScore+'/'+evalQuizzes.length;
     if(lastScore!==null)animateScore(score,lastScore,'Your Final Score: ');
     p.classList.remove('celebrating');void p.offsetWidth;p.classList.add('celebrating');
   }
@@ -618,7 +635,7 @@
   document.addEventListener('click',function(e){
     var b=e.target.closest('[data-lab]');if(!b)return;
     var action=b.dataset.lab, scene=b.closest('.scene'), p=b.closest('.learning-lab');
-    if(action==='narrate'||action==='narration-replay'){stopLab();speak(scene.dataset.narasi);}
+    if(action==='narrate'||action==='narration-replay'){stopLab();speak(scene.dataset.narasi, sceneLanguage(scene));}
     if(action==='narration-pause'){
       if(lab.finish){var active=scene.querySelector('.learning-lab.is-playing');if(active)active.querySelector('[data-lab="pause"]')?.click();}
       else {try{if(speechSynthesis.paused)speechSynthesis.resume();else speechSynthesis.pause();}catch(err){}}
@@ -629,7 +646,7 @@
       if(p.classList.contains('is-paused')){lab.paused=false;p.classList.remove('is-paused');if(lab.speech&&soundOn)speechSynthesis.resume();else if(lab.finish)lab.timer=setTimeout(lab.finish,1800);}
       else if(simulations[n])simulations[n]();
     }
-    if(action==='replay'){if(n===4){p.querySelector('.ring-counter').firstChild.textContent='Dering ';p.__ring();}else if(simulations[n])simulations[n]();}
+    if(action==='replay'){if(n===4){p.querySelector('.ring-counter').firstChild.textContent='Ring ';p.__ring();}else if(simulations[n])simulations[n]();}
     if(action==='pause'&&p.classList.contains('is-playing')){lab.paused=!lab.paused;p.classList.toggle('is-paused',lab.paused);if(lab.paused){clearTimeout(lab.timer);if(lab.speech)speechSynthesis.pause();}else{if(lab.speech&&soundOn)speechSynthesis.resume();else if(lab.finish)lab.timer=setTimeout(lab.finish,1800);}}
   });
 
