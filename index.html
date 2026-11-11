@@ -44,7 +44,7 @@
     <section class="scene scene--hero is-active" id="s1">
       <div class="intro" id="intro">
         <div class="video-container">
-          <video class="intro__video" id="introVideo" src="opening.mp4" playsinline preload="auto" aria-label="Video pembuka"></video>
+          <video controls class="intro__video" id="introVideo" src="opening.mp4" playsinline preload="auto" aria-label="Video pembuka"></video>
           <button class="btn btn--glass intro__skip" id="skipIntro" type="button">Lewati Video ▸</button>
         </div>
       </div>
@@ -212,17 +212,17 @@
           </div>
         </div>
 
-        <div class="quiz step" data-step="5" data-jawaban="1" data-pembahasan="Salam pembuka yang tepat menyebutkan nama bagian, nama petugas, serta tawaran bantuan secara sopan.">
-          <div class="quiz__label">Latihan Formatif 1</div>
-          <p class="q">Manakah salam pembuka yang paling tepat saat menerima telepon pesanan room service?</p>
+        <div class="quiz step" data-step="5" data-jawaban="1" data-pembahasan="A professional greeting includes the department, your name, and a polite offer of help." lang="en">
+          <div class="quiz__label">Practice Quiz</div>
+          <p class="q">Which greeting is the most appropriate when answering a room service call?</p>
           <div class="opts">
-            <button class="opt" type="button">A. Halo, ya mau pesan apa?</button>
-            <button class="opt" type="button">B. Selamat siang, Room Service dengan Andi, ada yang bisa saya bantu?</button>
-            <button class="opt" type="button">C. Tunggu sebentar ya, room service sedang sibuk.</button>
-            <button class="opt" type="button">D. Halo kamar berapa ini?</button>
+            <button class="opt" type="button">A. Hello, what do you want to order?</button>
+            <button class="opt" type="button">B. Good afternoon, Room Service. This is Andi speaking. How may I assist you?</button>
+            <button class="opt" type="button">C. Please wait. Room Service is busy.</button>
+            <button class="opt" type="button">D. Hello, what is your room number?</button>
           </div>
           <div class="feedback" hidden></div>
-          <div class="after" hidden><button class="btn btn--primary" type="button" data-goto="s5">Lanjut ▸</button></div>
+          <div class="after" hidden><button class="btn btn--primary" type="button" data-goto="s5">Continue ▸</button></div>
         </div>
       </div>
     </section>
@@ -253,17 +253,17 @@
           </div>
         </div>
 
-        <div class="quiz step" data-step="2" data-jawaban="1" data-pembahasan="Nama tamu dan nomor kamar adalah dua poin utama yang wajib dikonfirmasi terlebih dahulu agar tidak terjadi kesalahan pengantaran pesanan.">
-          <div class="quiz__label">Latihan Formatif 2</div>
-          <p class="q">Informasi apa yang wajib dipastikan &amp; dicatat petugas sebelum mencatat pesanan makanan?</p>
+        <div class="quiz step" data-step="2" data-jawaban="1" data-pembahasan="Confirm the guest’s name and room number first to prevent delivery mistakes." lang="en">
+          <div class="quiz__label">Practice Quiz</div>
+          <p class="q">What information must staff confirm and record before taking a food order?</p>
           <div class="opts">
-            <button class="opt" type="button">A. Hanya nomor kamar saja.</button>
-            <button class="opt" type="button">B. Nama tamu dan nomor kamar.</button>
-            <button class="opt" type="button">C. Nama tamu saja.</button>
-            <button class="opt" type="button">D. Tidak perlu mencatat data tamu.</button>
+            <button class="opt" type="button">A. Only the room number.</button>
+            <button class="opt" type="button">B. The guest’s name and room number.</button>
+            <button class="opt" type="button">C. Only the guest’s name.</button>
+            <button class="opt" type="button">D. There is no need to record guest details.</button>
           </div>
           <div class="feedback" hidden></div>
-          <div class="after" hidden><button class="btn btn--primary" type="button" data-goto="s6">Lanjut ▸</button></div>
+          <div class="after" hidden><button class="btn btn--primary" type="button" data-goto="s6">Continue ▸</button></div>
         </div>
       </div>
     </section>
@@ -289,22 +289,22 @@
           </ul>
         </div>
 
-        <div class="quiz step" data-step="2" data-multi="0,1,2,4" data-pembahasan="Informasi penting pesanan meliputi jenis menu, jumlah pesanan, nomor kamar pengantaran, dan permintaan khusus dari tamu.">
-          <div class="quiz__label">Studi Kasus Multi-Pilihan</div>
-          <p class="q">Pilihlah SEMUA informasi yang wajib dicatat petugas saat menerima pesanan (Pilih lebih dari satu!):</p>
+        <div class="quiz step" data-step="2" data-multi="0,1,2,4" data-pembahasan="Record the menu items, quantities, room number, and any special requests." lang="en">
+          <div class="quiz__label">Practice Quiz</div>
+          <p class="q">Select All Correct Answers: What information must staff record when taking an order?</p>
           <div class="opts">
-            <button class="opt" type="button">A. Menu atau nama makanan/minuman</button>
-            <button class="opt" type="button">B. Jumlah porsi pesanan</button>
-            <button class="opt" type="button">C. Nomor kamar tamu</button>
-            <button class="opt" type="button">D. Jadwal istirahat petugas laundry</button>
-            <button class="opt" type="button">E. Permintaan khusus (Special request/Dietary restriction)</button>
-            <button class="opt" type="button">F. Hobi atau preferensi olahraga tamu</button>
+            <button class="opt" type="button">A. Menu items or food and beverage names</button>
+            <button class="opt" type="button">B. Number of portions</button>
+            <button class="opt" type="button">C. The guest’s room number</button>
+            <button class="opt" type="button">D. The laundry staff’s break schedule</button>
+            <button class="opt" type="button">E. Special requests or dietary restrictions</button>
+            <button class="opt" type="button">F. The guest’s hobbies or favorite sports</button>
           </div>
           <div class="check">
-            <button class="btn btn--secondary btn-check" type="button">Periksa Jawaban</button>
+            <button class="btn btn--secondary btn-check" type="button">Check Answer</button>
           </div>
           <div class="feedback" hidden></div>
-          <div class="after" hidden><button class="btn btn--primary" type="button" data-goto="s7">Lanjut ▸</button></div>
+          <div class="after" hidden><button class="btn btn--primary" type="button" data-goto="s7">Continue ▸</button></div>
         </div>
       </div>
     </section>
@@ -327,17 +327,17 @@
           </div>
         </div>
 
-        <div class="quiz step" data-step="2" data-jawaban="1" data-pembahasan="Konfirmasi pesanan dilakukan untuk memastikan keakuratan catatan dan menghindari kesalahan produksi di dapur.">
-          <div class="quiz__label">Latihan Formatif 3</div>
-          <p class="q">Apa tujuan utama mengulangi (repeat order) pesanan kepada tamu?</p>
+        <div class="quiz step" data-step="2" data-jawaban="1" data-pembahasan="Repeating the order confirms accuracy and prevents mistakes in the kitchen." lang="en">
+          <div class="quiz__label">Practice Quiz</div>
+          <p class="q">What is the main purpose of repeating an order to the guest?</p>
           <div class="opts">
-            <button class="opt" type="button">A. Memperpanjang waktu percakapan.</button>
-            <button class="opt" type="button">B. Memastikan pesanan yang dicatat sudah sesuai keinginan tamu.</button>
-            <button class="opt" type="button">C. Menguji daya ingat tamu.</button>
-            <button class="opt" type="button">D. Menunggu waktu makanan siap.</button>
+            <button class="opt" type="button">A. To make the conversation longer.</button>
+            <button class="opt" type="button">B. To check that the recorded order matches the guest’s wishes.</button>
+            <button class="opt" type="button">C. To test the guest’s memory.</button>
+            <button class="opt" type="button">D. To wait until the food is ready.</button>
           </div>
           <div class="feedback" hidden></div>
-          <div class="after" hidden><button class="btn btn--primary" type="button" data-goto="s8">Lanjut ▸</button></div>
+          <div class="after" hidden><button class="btn btn--primary" type="button" data-goto="s8">Continue ▸</button></div>
         </div>
       </div>
     </section>
@@ -406,17 +406,17 @@
           </div>
         </div>
 
-        <div class="quiz step" data-step="4" data-jawaban="1" data-pembahasan="Perubahan pesanan dari tamu wajib didengarkan tenang, dicatat, dikonfirmasi ulang, dan segera diperbarui ke Dapur/Kitchen.">
-          <div class="quiz__label">Latihan Formatif 4</div>
-          <p class="q">Apa tindakan paling tepat saat tamu mengubah pesanan setelah sempat dikonfirmasi?</p>
+        <div class="quiz step" data-step="4" data-jawaban="1" data-pembahasan="Listen calmly, record and confirm the changes, and promptly update the kitchen." lang="en">
+          <div class="quiz__label">Practice Quiz</div>
+          <p class="q">What should staff do when a guest changes an order after confirmation?</p>
           <div class="opts">
-            <button class="opt" type="button">A. Mengabaikan perubahan karena pesanan awal sudah dicetak.</button>
-            <button class="opt" type="button">B. Mendengarkan dengan tenang, mencatat revisi, konfirmasi ulang, dan update ke Kitchen.</button>
-            <button class="opt" type="button">C. Menolak perubahan pesanan tamu.</button>
-            <button class="opt" type="button">D. Meminta tamu menelepon ulang nanti.</button>
+            <button class="opt" type="button">A. Ignore the change because the original ticket has been printed.</button>
+            <button class="opt" type="button">B. Listen calmly, record the changes, confirm them, and update the kitchen.</button>
+            <button class="opt" type="button">C. Refuse to change the guest’s order.</button>
+            <button class="opt" type="button">D. Ask the guest to call again later.</button>
           </div>
           <div class="feedback" hidden></div>
-          <div class="after" hidden><button class="btn btn--primary" type="button" data-goto="s10">Lanjut ▸</button></div>
+          <div class="after" hidden><button class="btn btn--primary" type="button" data-goto="s10">Continue ▸</button></div>
         </div>
       </div>
     </section>
@@ -484,92 +484,93 @@
       </div>
 
       <div class="scene__nav">
-        <button class="btn btn--primary" type="button" data-goto="s11">Mulai Uji Pemahaman ▸</button>
+        <button class="btn btn--primary" type="button" data-goto="s11">Start Final Evaluation ▸</button>
       </div>
     </section>
 
     <!-- Adegan 11 — Evaluasi Interaktif -->
-    <section class="scene" id="s11" data-narasi="Evaluasi interaktif. Lima soal pilihan ganda. Kerjakan dengan teliti. Skor akan dihitung otomatis.">
+    <section class="scene" id="s11" data-narasi="Final evaluation. Five multiple-choice questions. Select your answer carefully. Your score counts correct answers on the first attempt.">
       <div class="scene__head">
         <div class="scene__icon">🏆</div>
         <div>
-          <span class="scene__badge">Adegan 11</span>
-          <h2 class="scene__title">Evaluasi Interaktif</h2>
+          <span class="scene__badge">Scene 11</span>
+          <h2 class="scene__title">Final Evaluation</h2>
         </div>
       </div>
 
-      <div class="scene__body">
+      <div class="scene__body" lang="en">
+        <p>Select Your Answer. Each question is worth one point on the first attempt. You may retry to continue learning.</p>
         <div class="eval-header-card">
-          <span id="evalStatus" class="eval-status">Soal 1/5 · Skor Saat Ini: 0</span>
+          <span id="evalStatus" class="eval-status">Question 1/5 · Current Score: 0</span>
         </div>
 
-        <div class="quiz" data-jawaban="1" data-pembahasan="Salam pembuka dan perkenalan diri adalah etika pertama sesuai standar dalam menerima telepon.">
-          <p class="q">1. Apa yang harus dilakukan pertama kali saat menerima telepon pesanan room service?</p>
+        <div class="quiz" data-jawaban="1" data-pembahasan="Start with a professional greeting and introduce yourself and your department." lang="en">
+          <p class="q">1. What should you do first when answering a room service call?</p>
           <div class="opts">
-            <button class="opt" type="button">A. Langsung menanyakan pesanan.</button>
-            <button class="opt" type="button">B. Mengucapkan salam pembuka dan memperkenalkan diri beserta bagiannya.</button>
-            <button class="opt" type="button">C. Menutup telepon jika suara kurang jelas.</button>
-            <button class="opt" type="button">D. Menanyakan nama tamu lebih dulu.</button>
+            <button class="opt" type="button">A. Ask for the order immediately.</button>
+            <button class="opt" type="button">B. Give a greeting and introduce yourself and your department.</button>
+            <button class="opt" type="button">C. Hang up if the voice is unclear.</button>
+            <button class="opt" type="button">D. Ask for the guest’s name first.</button>
           </div>
           <div class="feedback" hidden></div>
           <div class="after" hidden></div>
         </div>
 
-        <div class="quiz" data-jawaban="1" data-pembahasan="Identitas tamu dan nomor kamar sangat penting untuk mencegah salah kirim makanan." hidden>
-          <p class="q">2. Informasi apa yang wajib dicatat sebelum mencatat pesanan makanan?</p>
+        <div class="quiz" data-jawaban="1" data-pembahasan="The guest’s name and room number help prevent delivery mistakes." lang="en" hidden>
+          <p class="q">2. What information must you record before taking a food order?</p>
           <div class="opts">
-            <button class="opt" type="button">A. Hanya nomor kamar.</button>
-            <button class="opt" type="button">B. Nama tamu dan nomor kamar.</button>
-            <button class="opt" type="button">C. Nama tamu saja.</button>
-            <button class="opt" type="button">D. Tidak perlu mencatat.</button>
+            <button class="opt" type="button">A. Only the room number.</button>
+            <button class="opt" type="button">B. The guest’s name and room number.</button>
+            <button class="opt" type="button">C. Only the guest’s name.</button>
+            <button class="opt" type="button">D. There is no need to record anything.</button>
           </div>
           <div class="feedback" hidden></div>
           <div class="after" hidden></div>
         </div>
 
-        <div class="quiz" data-jawaban="1" data-pembahasan="Konfirmasi mencegah kesalahan pencatatan pesanan." hidden>
-          <p class="q">3. Apa tujuan konfirmasi pesanan (repeat order)?</p>
+        <div class="quiz" data-jawaban="1" data-pembahasan="Repeating the order prevents recording mistakes." lang="en" hidden>
+          <p class="q">3. What is the purpose of repeating an order?</p>
           <div class="opts">
-            <button class="opt" type="button">A. Memperpanjang percakapan.</button>
-            <button class="opt" type="button">B. Memastikan pesanan yang dicatat sudah sesuai keinginan tamu.</button>
-            <button class="opt" type="button">C. Menguji ingatan tamu.</button>
-            <button class="opt" type="button">D. Menunggu pesanan siap.</button>
+            <button class="opt" type="button">A. To make the conversation longer.</button>
+            <button class="opt" type="button">B. To check that the recorded order matches the guest’s wishes.</button>
+            <button class="opt" type="button">C. To test the guest’s memory.</button>
+            <button class="opt" type="button">D. To wait until the food is ready.</button>
           </div>
           <div class="feedback" hidden></div>
           <div class="after" hidden></div>
         </div>
 
-        <div class="quiz" data-jawaban="1" data-pembahasan="Perubahan pesanan wajib dicatat, dikonfirmasi ulang, dan diteruskan ke dapur sesuai SOP." hidden>
-          <p class="q">4. Jika tamu mengubah pesanan setelah dikonfirmasi, tindakan petugas adalah…</p>
+        <div class="quiz" data-jawaban="1" data-pembahasan="Record and confirm changes, then inform the kitchen according to hotel procedures." lang="en" hidden>
+          <p class="q">4. What should staff do if a guest changes a confirmed order?</p>
           <div class="opts">
-            <button class="opt" type="button">A. Mengabaikan perubahan.</button>
-            <button class="opt" type="button">B. Mencatat perubahan, mengonfirmasi ulang, dan meneruskan ke bagian terkait.</button>
-            <button class="opt" type="button">C. Menolak perubahan.</button>
-            <button class="opt" type="button">D. Meminta tamu menelepon ulang nanti.</button>
+            <button class="opt" type="button">A. Ignore the changes.</button>
+            <button class="opt" type="button">B. Record the changes, confirm them, and inform the relevant department.</button>
+            <button class="opt" type="button">C. Refuse the changes.</button>
+            <button class="opt" type="button">D. Ask the guest to call again later.</button>
           </div>
           <div class="feedback" hidden></div>
           <div class="after" hidden></div>
         </div>
 
-        <div class="quiz" data-jawaban="0" data-pembahasan="Pesanan diteruskan ke dapur dan kasir dengan informasi lengkap untuk diproses." hidden>
-          <p class="q">5. Setelah pesanan dikonfirmasi, pesanan diteruskan…</p>
+        <div class="quiz" data-jawaban="0" data-pembahasan="Send complete order details to the kitchen and cashier for processing." lang="en" hidden>
+          <p class="q">5. After an order is confirmed, where should it go?</p>
           <div class="opts">
-            <button class="opt" type="button">A. Ke bagian terkait (kitchen/FSO) dengan informasi lengkap dan akurat.</button>
-            <button class="opt" type="button">B. Disimpan saja tanpa diteruskan.</button>
-            <button class="opt" type="button">C. Hanya jika tamu bertanya.</button>
-            <button class="opt" type="button">D. Tanpa perlu informasi lengkap.</button>
+            <button class="opt" type="button">A. To the relevant department (kitchen/FSO) with complete and accurate details.</button>
+            <button class="opt" type="button">B. Keep it without sending it anywhere.</button>
+            <button class="opt" type="button">C. Send it only if the guest asks.</button>
+            <button class="opt" type="button">D. Send it without complete details.</button>
           </div>
           <div class="feedback" hidden></div>
           <div class="after" hidden></div>
         </div>
 
         <div class="result" id="evalResult" hidden>
-          <div class="result__badge">🎉 Evaluasi Selesai!</div>
+          <div class="result__badge">🎉 Evaluation Complete!</div>
           <div class="result__score" id="evalScore">0/5</div>
           <p class="result__comment" id="evalComment"></p>
           <div class="result__actions">
-            <button class="btn btn--secondary" type="button" id="evalReset">↻ Ulangi Evaluasi</button>
-            <button class="btn btn--primary" type="button" data-goto="s12">Lanjut ke Penutup ▸</button>
+            <button class="btn btn--secondary" type="button" id="evalReset">↻ Try Again</button>
+            <button class="btn btn--primary" type="button" data-goto="s12">Continue ▸</button>
           </div>
         </div>
       </div>
